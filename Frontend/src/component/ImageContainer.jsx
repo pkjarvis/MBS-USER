@@ -4,7 +4,7 @@ import React from 'react';
 const ImageContainer = () => {
   return (
     <div>
-        <div className='bg-amber-400 mt-5  w-[100%] h-[70vh] '>
+        <div className='bg-white mt-5  w-[100%] h-[70vh] '>
             <img src="../src/assets/Bg-1.png" alt="Bg1" className='object-fill w-[100%] h-[100%]' />
             <span className='flex flex-col absolute top-[17vw] left-[8.4vw] max-w-[18vw] gap-6'>
                 <h1 className='text-white text-4xl font-bold'>Redefined Movie Experience!</h1>
