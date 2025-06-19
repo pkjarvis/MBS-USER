@@ -5,5 +5,37 @@
   box-sizing: border-box;
   
   font-family: "Inter";
+  scrollbar-width: thin;
+  scrollbar-color: transparent;
 }
 
+/* 
+.p-inputtext{
+    color:black;
+    font-weight: 200;
+    font-size: 16px;
+    background: #ffffff;
+    border-color:#BFBFBF;
+    height: 12rem;
+   
+}
+.p-inputtext:enabled:focus{
+  border-color:#BFBFBF !important;
+  box-shadow:none !important;
+}
+.p-inputtext:enabled:hover{
+  border-color: #BFBFBF;
+}
+
+.p-rating .p-rating-item .p-rating-icon.p-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.p-rating .p-rating-item .p-rating-icon {
+  color:#EAEAEA;
+}
+
+.p-rating .p-rating-item.p-focus {
+  box-shadow: none;
+} */

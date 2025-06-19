@@ -8,6 +8,7 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import Dashboard from "./pages/Dashboard";
 import AllMovies from "./pages/AllMovies";
 import Movie from "./pages/Movie";
+import Showtime from "./pages/Showtime";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Dashboard/>} />
             <Route path="/movies" element={<AllMovies/>} />
             <Route path="/movie" element={<Movie/>}/>
+            <Route path="/showtime" element={<Showtime/>}/>
           
              {/* <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} /> */}

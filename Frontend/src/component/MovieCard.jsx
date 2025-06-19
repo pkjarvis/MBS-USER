@@ -1,14 +1,14 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const MovieCard = () => {
+const MovieCard = (props) => {
 
   
 
   return (
     <div className='  hover:scale-109 ease-in-out duration-300 '>
         <div className="card-img-container w-[100%] h-[28vw] mt-[1.8vw] border-1 border-zinc-400 rounded-2xl overflow-hidden  cursor-pointer">
-            <a href="http://localhost:5173/movie"><img src="../src/assets/aliceWonderland.png" alt="Alice" className='w-[100%] h-[23vw]'  /></a>
+            <a href="http://localhost:5173/movie"><img src={props.imgURL} alt="Alice" className='w-[100%] h-[23vw]'  /></a>
             <span className='w-[95%] mt-2' >
                 <p className='text-md text-black font-semibold mx-2'>Alice in Wonderland</p>
                  <span className='flex items-center justify-start gap-2 ml-3'>

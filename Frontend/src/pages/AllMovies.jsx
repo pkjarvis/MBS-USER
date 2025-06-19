@@ -47,7 +47,7 @@ const AllMovies = () => {
                 options={genres}
                 optionLabel="name"
                 placeholder="Genre"
-                className="w-full md:w-14rem"
+               
               />
             </div>
             <div className="card flex justify-content-center ">
@@ -57,26 +57,27 @@ const AllMovies = () => {
                 options={languages}
                 optionLabel="name"
                 placeholder="Language"
-                className="w-full md:w-14rem"
+                
               />
             </div>
           </span>
 
           <div className="grid grid-cols-4  gap-[2vw]">
             
-            <MovieCard />
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
             
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
+            
           </div>
           <div className='  h-[14vw]  my-[4vw]'>
             <img src="../src/assets/footerImage.png" alt="FooterImg" className='w-[100%] h-[100%] object-fit' />

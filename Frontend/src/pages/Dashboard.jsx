@@ -22,7 +22,7 @@ const Dashboard = () => {
             <ImageContainer/> 
           </section>
           <section>
-             <MovieCardSection/>
+             <MovieCardSection title="Watch latest movie" imgTitle={"../src/assets/aliceWonderland.png"}/>
           </section>
           <section>
              <NowShowingTheatre/>

@@ -11,10 +11,11 @@ const Bollywood = () => {
                 <a href="" className='underline text-zinc-400'>see all</a>
             </span>
             <div className='grid grid-cols-4 gap-[3vw] mt-2'>
-                <MovieCard/>
-                <MovieCard/>
-                <MovieCard/>
-                <MovieCard/>
+                <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+                <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+                <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+                <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+               
             </div>
         </div>
     </div>
