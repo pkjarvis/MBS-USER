@@ -39,3 +39,39 @@
 .p-rating .p-rating-item.p-focus {
   box-shadow: none;
 } */
+
+.p-inputtext{
+  border-color: #BFBFBF;
+}
+
+
+.p-inputtext:focus{
+  box-shadow: none;  
+}
+
+.p-rating .p-rating-item .p-rating-icon {
+  color:#EAEAEA;
+   width: 2rem;
+    height: 2rem;
+
+}
+
+.p-rating .p-rating-item.p-focus{
+  box-shadow: none;
+}
+
+
+
+.p-dropdown{
+  border-color:grey;
+  border-radius: 1.6rem;
+  
+}
+
+.p-dropdown.p-focus {
+  box-shadow: none;
+}
+
+.p-dropdown:hover{
+  border-color:none;
+}

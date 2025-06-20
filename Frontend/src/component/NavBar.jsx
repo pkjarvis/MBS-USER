@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   
@@ -13,16 +14,21 @@ const NavBar = () => {
         { name: 'Hyderabad', code: 'HYD' },
         { name: 'Mumbai', code: 'MB' }
     ];
+  const navigate=useNavigate("");
 
 
   const handleClick=()=>{
     setFlag(!flag);
   }
+
+  const handleProfile=()=>{
+    navigate("/profile");
+  }
   
   return (
     <div className="flex items-center justify-center mt-[2vw]">
 
-        <div className={`absolute w-[48%] h-[auto] bg-white top-[12vw] p-4 ${flag===true?"":"hidden"}`}>
+        <div className={`absolute w-[48%] h-[auto] bg-white top-[12vw] p-4 shadow-2xl z-10 ${flag===true?"":"hidden"}`}>
             <p className='text-xl font-semibold'>Select Location</p>
              <div className="card flex justify-content-center mt-3">
                 <Dropdown value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" 
@@ -58,14 +64,14 @@ const NavBar = () => {
 
 
         <div className="nav-container  w-[95%] flex items-center justify-between p-2">
-            <img src="../src/assets/Logo.png" alt="WebLogo" className='w-[2.6vw] h-[2.6vw]' />
+            <a href="/"><img src="../src/assets/Logo.png" alt="WebLogo" className='w-[2.6vw] h-[2.6vw]' /></a>
             <span className='container-right flex items-center justify-center gap-4'>
                 <span className='flex items-center gap-2 cursor-pointer' onClick={handleClick}>
                     <p className='text-[#373737] font-normal'>New Delhi</p>
-                    <img src="../src/assets/dropDown.png" alt="DropDown" className='w-[1vw] h-[0.7vw]' />
+                    <img src="../src/assets/dropDown.png" alt="DropDown" className={`${flag?"transform rotate-180 duration-200 transition-transform":"duration-200 transition-transform"}w-[1vw] h-[0.7vw]`} />
                 </span>
 
-                <span className='flex items-center gap-1 cursor-pointer'>
+                <span className='flex items-center gap-1 cursor-pointer' onClick={handleProfile}>
                     <img src="../src/assets/user.png" alt="Profile" className='w-[2vw] h-[2vw]' />
                      <p className='text-[#373737] font-normal'>Hi,{" "} Rohit Negi</p>
                 </span>

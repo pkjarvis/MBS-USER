@@ -10,20 +10,22 @@ import { useNavigate } from "react-router-dom";
 const AllMovies = () => {
   const [genre, setGenre] = useState(null);
   const genres = [
-    { name: "New York", code: "NY" },
-    { name: "Rome", code: "RM" },
-    { name: "London", code: "LDN" },
-    { name: "Istanbul", code: "IST" },
-    { name: "Paris", code: "PRS" },
+    { name: "Horror", code: "HRR" },
+    { name: "Comedy", code: "CMD" },
+    { name: "Action", code: "ACT" },
+    { name: "Adventure", code: "ADV" },
+    { name: "Drama", code: "DRA" },
+    { name: "Romance", code: "RMC" },
+    { name: "Thriller", code: "THR" },
   ];
 
   const [language, setLanguage] = useState(null);
   const languages = [
-    { name: "New York", code: "NY" },
-    { name: "Rome", code: "RM" },
-    { name: "London", code: "LDN" },
-    { name: "Istanbul", code: "IST" },
-    { name: "Paris", code: "PRS" },
+    { name: "Hindi", code: "HN" },
+    { name: "English", code: "ENG" },
+    { name: "Marathi", code: "MTH" },
+    { name: "Telugu", code: "TLG" },
+    { name: "Malyalam", code: "MLY" },
   ];
 
   const handleClick=()=>{
@@ -34,7 +36,14 @@ const AllMovies = () => {
   return (
     <div>
       <div className="all-movies">
-        <NavBar />
+        <div className="theatre-container font-[Inter]">
+            <NavBar />
+            <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
+                <a href="http://localhost:5173/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
+                <a href="http://localhost:5173/movie" className='cursor-pointer font-light'>Movie</a>
+            </span> 
+
+        </div>
         <ImageContainer />
 
         <div className="card-container mx-[3vw] bg-white h-[auto]">

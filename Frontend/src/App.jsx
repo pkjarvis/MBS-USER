@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import AllMovies from "./pages/AllMovies";
 import Movie from "./pages/Movie";
 import Showtime from "./pages/Showtime";
+import ShowBooking from "./pages/ShowBooking";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
             <Route path="/movies" element={<AllMovies/>} />
             <Route path="/movie" element={<Movie/>}/>
             <Route path="/showtime" element={<Showtime/>}/>
+            <Route path="/showbooking" element={<ShowBooking/>}/>
+            <Route path="/profile" element={<Profile/>}/>
           
              {/* <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} /> */}

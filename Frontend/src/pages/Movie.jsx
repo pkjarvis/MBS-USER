@@ -39,7 +39,7 @@ const Movie = () => {
   return (
     <div>
       <div className="movie-container">
-        <div className={`${visible?"star-container flex flex-col bg-white w-[26%] rounded-xl absolute top-[15vw] mx-[30vw]":"hidden"}`}>
+        <div className={`${visible?"star-container flex flex-col bg-white shadow-2xl z-10 w-[26%] rounded-xl absolute top-[15vw] mx-[30vw] p-2":"hidden"}`}>
           <span className="flex items-center justify-between my-2 mx-[1vw]">
             <p className="font-semibold text-lg">Ratings and Reviews</p>
             <p className="text-3xl cursor-pointer" onClick={handleCancel}>x</p>
@@ -75,7 +75,15 @@ const Movie = () => {
           
           
         </div>
-        <MainHeader headerlink="Movie" />
+         <div className="theatre-container font-[Inter]">
+            <NavBar />
+            <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
+                <a href="http://localhost:5173/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
+                <a href="http://localhost:5173/movie" className='cursor-pointer font-light'>Movie </a>
+                
+            </span> 
+
+        </div>
         <div className="flex items-center justify-start gap-2 h-[35vw] p-2">
           <div className="h-[33vw] w-[28%]">
             <img
