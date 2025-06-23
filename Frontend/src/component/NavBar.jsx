@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { useNavigate } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = (props) => {
   
   const [flag,setFlag]=useState(false);
 
@@ -73,7 +73,7 @@ const NavBar = () => {
 
                 <span className='flex items-center gap-1 cursor-pointer' onClick={handleProfile}>
                     <img src="../src/assets/user.png" alt="Profile" className='w-[2vw] h-[2vw]' />
-                     <p className='text-[#373737] font-normal'>Hi,{" "} Rohit Negi</p>
+                     <p className='text-[#373737] font-normal'>Hi,{" "}{props.title}</p>
                 </span>
             </span>
         </div>

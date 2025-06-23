@@ -32,9 +32,14 @@ const Movie = () => {
   }
 
   const handleBook=()=>{
-    
     navigate("/showtime");
   }
+
+  const username=localStorage.getItem("userName");
+  useEffect(()=>{
+    console.log(username);
+  },[username])
+
 
   return (
     <div>
@@ -76,7 +81,7 @@ const Movie = () => {
           
         </div>
          <div className="theatre-container font-[Inter]">
-            <NavBar />
+            <NavBar title={username} />
             <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
                 <a href="http://localhost:5173/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
                 <a href="http://localhost:5173/movie" className='cursor-pointer font-light'>Movie </a>

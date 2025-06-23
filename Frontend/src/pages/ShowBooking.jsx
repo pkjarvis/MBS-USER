@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "../component/NavBar";
 import { useNavigate } from "react-router-dom";
 
@@ -7,35 +7,52 @@ const ShowBooking = () => {
   const handleSubmit=()=>{
     navigate("/");
   }
+
+  const username=localStorage.getItem("userName");
+  useEffect(()=>{
+    console.log(username);
+  },[username])
+
+
+  
+
+  const handlePopUP=()=>{
+    navigate("/booking")
+  }
+
   return (
     <div>
       <div className="show-booking-container">
         <div className="theatre-container font-[Inter]">
-          <NavBar />
+          <NavBar title={username} />
           <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
             <a
-              href="http://localhost:5173/dashboard"
+              href="http://localhost:3000/dashboard"
               className="cursor-pointer font-light text-zinc-500 "
             >
               Home /
             </a>
             <a
-              href="http://localhost:5173/movie"
+              href="http://localhost:3000/movie"
               className="cursor-pointer font-light text-zinc-500"
             >
               Movie /
             </a>
             <a
-              href="http://localhost:5173/showtime"
+              href="http://localhost:3000/showtime"
               className="cursor-pointer text-zinc-500"
             >
               Showtime /
             </a>
-            <a href="http://localhost:5173/showtime" className="cursor-pointer">
+            <a href="http://localhost:3000/showtime" className="cursor-pointer">
               Show Booking
             </a>
           </span>
         </div>
+      
+      
+
+
         <div className="header flex justify-start mx-[3vw] mt-[2vw] gap-4 bg-[#F9F9F9] py-[1.4vw]">
           <img
             src="../src/assets/pvr.png"
@@ -624,7 +641,7 @@ const ShowBooking = () => {
               </div>
              
             </div>
-            <div className="flex flex-col items-center justify-center mb-[3vw]">
+            <div className="flex flex-col items-center justify-center">
                 <img
                   src="../src/assets/rect2.png"
                   alt="Overlayed image"
@@ -638,12 +655,13 @@ const ShowBooking = () => {
                 <p className="text-center text-md text-zinc-300">Screen</p>
               </div>
           </div>
-          <div className="flex items-center justify-around p-[1vw] w-[94%] bg-[#F0F0F0] absolute top-[44vw]">
+          <div className="flex items-center justify-around p-[1vw] w-[100%] bg-[#F0F0F0] relative mb-4" onClick={handlePopUP}>
             <p className="font-bold text-xl">1 seat selected</p>
              <button className="bg-[#FF5295]  text-md w-[12vw] h-[2vw]  rounded-lg text-white font-semibold text-center cursor-pointer mx-[1vw]" onClick={handleSubmit}>
                Submit
             </button>
           </div>
+
            
         </div>
       </div>

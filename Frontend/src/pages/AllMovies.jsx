@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../component/NavBar";
 import ImageContainer from "../component/ImageContainer";
 
@@ -33,14 +33,23 @@ const AllMovies = () => {
     navigate("/movie");
   }
 
+  const username=localStorage.getItem("userName");
+    useEffect(()=>{
+      console.log(username);
+    },[username])
+
+
+  // fetch get api's for movies
+  
+
   return (
     <div>
       <div className="all-movies">
         <div className="theatre-container font-[Inter]">
-            <NavBar />
+            <NavBar title={username} />
             <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
-                <a href="http://localhost:5173/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
-                <a href="http://localhost:5173/movie" className='cursor-pointer font-light'>Movie</a>
+                <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
+                <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie</a>
             </span> 
 
         </div>

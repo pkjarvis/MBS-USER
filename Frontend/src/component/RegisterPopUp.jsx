@@ -1,16 +1,20 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPopUp = (props) => {
   
-
+  const navigate=useNavigate("");
 
   const handleClick=()=>{
     props.func(!props.val);
+  }
 
+  const handleRoute=()=>{
+    navigate("/signup");
   }
 
   return (
-    <div className="flex items-center justify-center z-10 ">
+    <div className="flex items-center justify-center z-60 ">
       <div className="pop-up-container flex flex-col bg-white rounded-2xl items-center justify-evenly w-[35%] h-[30vw]  absolute top-[8vw] shadow-2xl cursor-pointer">
         <span className="flex">
           <p className="text-3xl text-black absolute right-9 top-5" onClick={handleClick}>x</p>
@@ -29,7 +33,7 @@ const RegisterPopUp = (props) => {
               Continue with Google
             </p>
           </span>
-          <span className="flex items-center justify-center gap-2 border-1 border-[#898888] rounded-xl w-[75%] h-[4vw] p-[2vw]">
+          <span className="flex items-center justify-center gap-2 border-1 border-[#898888] rounded-xl w-[75%] h-[4vw] p-[2vw]" onClick={handleRoute}>
             <img
               src="../src/assets/email.png"
               alt="Google"

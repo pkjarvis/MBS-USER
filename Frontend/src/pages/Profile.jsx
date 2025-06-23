@@ -1,15 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavBar from '../component/NavBar'
+import Footer from '../component/Footer';
 
 const Profile = () => {
+
+  const username=localStorage.getItem("userName");
+  useEffect(()=>{
+    console.log(username);
+  },[username])
+
+  const handleLogout=()=>{
+    localStorage.setItem("userName","");
+    localStorage.setItem("userToken","");
+  }
+
   return (
     <div>
         <div className="profile-container">
-            <NavBar/>
+            <NavBar title={username}/>
             <div className='bg-[#E2E0E0] p-2'>
                 <div className='flex items-center gap-[3vw] mx-[2.4vw]'>
-                    <a href="http://localhost:5173/profile" >Profile</a>
-                    <a href="http://localhost:5173/history">History</a>
+                    <a href="http://localhost:3000/profile" >Profile</a>
+                    <a href="http://localhost:3000/history">History</a>
                 </div>
                 
             </div>
@@ -23,28 +35,35 @@ const Profile = () => {
                 </div>
               </div>
 
-              <div className='content-container flex flex-col items-start mt-[2vw] ml-[22vw]'>
+              <div className='content-container flex flex-col items-start justify-center mt-[2vw] ml-[22vw]'>
                 <h2 className='text-2xl font-medium text-center'>Personal Details</h2>
-                <span className='flex items-center gap-[6vw] mt-[1vw]'>
-                    <p>First Name</p>
-                    <input type="text" placeholder="Enter first name here" className='w-[30vw] h-[2vw] p-1 bg-white border-1 border-[#CCCCCC] focus:outline-none'/>
+                <span className='flex items-center gap-[7vw] mt-[1vw]'>
+                    <p className='text-md max-w-[18%]'>First Name</p>
+                    <input type="text" placeholder="Enter first name here" className='w-[30vw] h-[2vw] p-1 bg-white border-1 border-[#CCCCCC] focus:outline-none rounded-md'/>
                 </span>
-                <span className='flex items-center gap-[6vw] mt-[1vw]'>
-                    <p>Last Name</p>
-                    <input type="text" placeholder="Enter first name here" className='w-[30vw] h-[2vw] p-1 bg-white border-1 border-[#CCCCCC] focus:outline-none'/>
+                <span className='flex items-center gap-[7vw] mt-[1vw]'>
+                    <p className='text-md max-w-[18%]'>Last Name</p>
+                    <input type="text" placeholder="Enter first name here" className='w-[30vw] h-[2vw] p-1 bg-white border-1 border-[#CCCCCC] focus:outline-none rounded-md'/>
                 </span>
-                <span className='flex items-center gap-[6vw] mt-[1vw]'>
-                    <p>Email Address</p>
+                <span className='flex items-center gap-[5.6vw] mt-[1vw]'>
+                    <p className='text-md max-w-[18%]'>Email Address</p>
+                    <input type="email" placeholder='Enter your email' className='w-[30vw] h-[2vw] p-1 bg-white border-1 border-[#CCCCCC] focus:outline-none rounded-md' />
                 </span>
-                <span className='flex items-center gap-[6vw] mt-[1vw]'>
+                {/* <span className='flex items-center gap-[6vw] mt-[1vw]'>
                     <p>Mobile Number</p>
-                </span>
+                </span> */}
                 
+              </div>
+
+              <div className='flex items-center justify-end mt-[4vw] gap-5 max-w-[68%]'>
+                <span className='w-[10%] h-[2vw] border-1 border-[#FF1414] rounded-sm flex items-center justify-center p-3 cursor-pointer'><p className=' text-md text-[#FF1414]' onClick={handleLogout}>Log out</p></span>
+                <span className='w-[10%] h-[2vw]  bg-[#FF5295] rounded-sm flex items-center justify-center p-3 cursor-pointer'><p className=' text-md text-white'>Save</p></span>
               </div>
               
               
               
             </div>
+            <Footer/>
         </div>
     </div>
   )

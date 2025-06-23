@@ -11,6 +11,10 @@ import Movie from "./pages/Movie";
 import Showtime from "./pages/Showtime";
 import ShowBooking from "./pages/ShowBooking";
 import Profile from "./pages/Profile";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Booking from "./pages/Booking";
+import History from "./pages/History";
 
 function App() {
   return (
@@ -18,16 +22,20 @@ function App() {
       <BrowserRouter>
         <PrimeReactProvider >
           <Routes>
-            <Route path="*" element={<Navigate to="/" />}/>
-            <Route path="/" element={<Dashboard/>} />
+            <Route path="*" element={<Navigate to="/root" />}/>
+            <Route path="/root" element={<Dashboard/>} />
+           
             <Route path="/movies" element={<AllMovies/>} />
             <Route path="/movie" element={<Movie/>}/>
             <Route path="/showtime" element={<Showtime/>}/>
             <Route path="/showbooking" element={<ShowBooking/>}/>
             <Route path="/profile" element={<Profile/>}/>
+            <Route path="/signup" element={<Signup/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/booking" element={<Booking/>}/>
+            <Route path="/history" element={<History/>}/>
+
           
-             {/* <Route path="/signup" element={<SignUp />} />
-              <Route path="/login" element={<Login />} /> */}
             </Routes>
         </PrimeReactProvider>
       </BrowserRouter>
