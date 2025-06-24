@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import NavBar from '../component/NavBar'
 import Footer from '../component/Footer';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
 
@@ -9,9 +10,13 @@ const Profile = () => {
     console.log(username);
   },[username])
 
+  const navigate=useNavigate("");
+
   const handleLogout=()=>{
     localStorage.setItem("userName","");
     localStorage.setItem("userToken","");
+    navigate("/");
+    
   }
 
   return (

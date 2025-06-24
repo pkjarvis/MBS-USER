@@ -6,6 +6,7 @@ import MovieCard from "../component/MovieCard";
 import { Dropdown } from "primereact/dropdown";
 import Footer from "../component/Footer";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 const AllMovies = () => {
   const [genre, setGenre] = useState(null);
@@ -40,6 +41,29 @@ const AllMovies = () => {
 
 
   // fetch get api's for movies
+   const [movies, setMovies] = useState([]);
+    // const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+
+    // polling user side to get latest movie added by admin every 10 seconds
+    // const interval=setInterval(()=>{
+      axiosInstance
+      .get("/get-movies", { withCredentials: true })
+      .then((res) => {
+        console.log(res.data);
+        setMovies(res.data);
+      })
+      .catch((err) =>
+        console.log("Error fetching movies", err.response?.data || err.message)
+      )
+    // },2000);
+
+    // return ()=>clearInterval(interval);
+ 
+      
+  },[]);
+
   
 
   return (
@@ -81,7 +105,21 @@ const AllMovies = () => {
           </span>
 
           <div className="grid grid-cols-4  gap-[2vw]">
+            {movies.length>0?
+            (
+              movies.map((m)=>(
+                <MovieCard
+                  key={m.id}
+                  movie={m}
+
+
+                />
+              ))
+            ):(<p className="text-md ">No movies added</p>)
             
+          }
+            
+            {/* <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
             <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
             <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
             <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
@@ -92,8 +130,7 @@ const AllMovies = () => {
             <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
             <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
             <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
+            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/> */}
             
             
           </div>

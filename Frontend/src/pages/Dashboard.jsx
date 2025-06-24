@@ -6,6 +6,7 @@ import MovieCardSection from "../component/MovieCardSection";
 import NowShowingTheatre from "../component/NowShowingTheatre";
 import Bollywood from "../component/Bollywood";
 import Footer from "../component/Footer";
+import axiosInstance from "../utils/axiosInstance";
 
 
 
@@ -18,11 +19,37 @@ const Dashboard = () => {
  
   const token=localStorage.getItem("userToken");
   const username=localStorage.getItem("userName");
+
   useEffect(()=>{
     if(token!=""){
       setFlag(false);
     }
   },[token,username])
+
+
+  const [movies, setMovies] = useState([]);
+
+
+  useEffect(() => {
+    
+    axiosInstance
+      .get("/get-movies", { withCredentials: true })
+      .then((res) => {
+        console.log(res.data);
+        setMovies(res.data);
+      })
+      .catch((err) =>
+        console.log("Error fetching movies", err.response?.data || err.message)
+      )
+      
+  },[]);
+
+
+  
+
+
+
+
   
   
 
@@ -47,7 +74,8 @@ const Dashboard = () => {
         <section>
           <MovieCardSection
             title="Watch latest movie"
-            imgTitle={"../src/assets/aliceWonderland.png"}
+            movies={movies.slice(0,4)}
+            // imgTitle={"../src/assets/aliceWonderland.png"}
           />
         </section>
         <section>
@@ -119,7 +147,7 @@ const Dashboard = () => {
         </section>
 
         <section>
-          <Bollywood />
+          <Bollywood movies={movies.slice(0,4)} />
         </section>
 
         <section className="mx-[3vw]  h-[14vw]  my-[4vw]">
@@ -139,3 +167,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+

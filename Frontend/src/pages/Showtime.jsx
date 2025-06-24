@@ -3,7 +3,12 @@ import NavBar from "../component/NavBar";
 import { Dropdown } from "primereact/dropdown";
 import Footer from "../component/Footer";
 import MainHeader from "../component/MainHeader";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Theatres from "../component/Theatres";
+import axiosInstance from "../utils/axiosInstance";
+
+
+// theatre-> id,theatrename,address,cityName,stateName,status,totalscreens,theatrefile,value
 
 const Showtime = () => {
 
@@ -40,6 +45,62 @@ const Showtime = () => {
     console.log(username);
   },[username])
 
+  const {state}=useLocation();
+  const movie=state?.movie;
+  console.log("movies",movie);
+
+
+
+  const NavigateDashboard=()=>{
+    navigate("/")
+  }
+
+  // api call for get theatre & showtime
+
+  const [theatres, setTheatres] = useState([]);
+   const [showtime, setShowTime] = useState([]);
+
+
+   useEffect(() => {
+    axiosInstance
+      .get("/get-theatres", { withCredentials: true })
+      .then((res) => {
+        console.log(res.data);
+        setTheatres(res.data);
+      })
+      .catch((err) =>
+        console.log("Error fetching movies", err.response?.data || err.message)
+      )
+      
+  }, []);
+
+  useEffect(() => {
+    axiosInstance
+      .get("/get-showtime", { withCredentials: true })
+      .then((res) => {
+        console.log(res.data);
+        setShowTime(res.data);
+      })
+      .catch((err) =>
+        console.log("Error fetching movies", err.response?.data || err.message)
+      )
+      
+  }, []);
+
+  console.log("shotime",showtime.startDate);
+
+
+  const NavigateMovie=()=>{
+    navigate("/movie",{state:{movie:movie}})
+  }
+  const NavigateShowTime=()=>{
+    navigate("/showtime")
+  }
+
+
+
+
+
 
   return (
     <div>
@@ -47,9 +108,13 @@ const Showtime = () => {
          <div className="theatre-container font-[Inter]">
             <NavBar title={username} />
             <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
-                <a href="http://localhost:5173/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
-                <a href="http://localhost:5173/movie" className='cursor-pointer font-light text-zinc-500'>Movie /</a>
-                <a href="http://localhost:5173/showtime" className='cursor-pointer'> Show Time</a>
+                <p 
+                // href="http://localhost:3000/dashboard" 
+                className='cursor-pointer font-light text-zinc-500 ' onClick={NavigateDashboard}>Home / </p>
+                {/* <a href="http://localhost:3000/movie" className='cursor-pointer font-light text-zinc-500'>Movie /</a>
+                <a href="http://localhost:3000/showtime" className='cursor-pointer'> Show Time</a> */}
+                <p className="cursor-pointer font-light text-zinc-500" onClick={NavigateMovie}>Movie /</p>
+                <p className="cursor-pointer " onClick={NavigateShowTime}>Show Time</p>
             </span> 
 
         </div>
@@ -57,19 +122,22 @@ const Showtime = () => {
         {/* Header Section */}
         <div className="flex items-center justify-start  h-[30vw] p-2 mt-[3vw]">
           {/* Header Left Section */}
-          <div className="h-[33vw] w-[20%] items-start">
+          <div className="h-[30vw] w-[20%] items-start ml-[2.5vw] overflow-hidden">
             <img
-              src="../src/assets/Azaad.png"
-              alt="Azaad"
+              // src="../src/assets/Azaad.png"
+              src={movie.file}
+              alt={movie.movie}
               className="w-[95%] h-[70%] my-auto"
             />
           </div>
           {/* Header Right Section*/}
           <div className="h-[100%] flex flex-col items-start justify-start p-[2vw] max-w-[50%]">
-            <h1 className="text-4xl font-bold">Azaad</h1>
+            <h1 className="text-4xl font-bold">{movie.movie}</h1>
             <p className="text-[#6F6F6F] mt-[1vw]">
               <span className="text-black ">2h 49m</span>{" "}
-              Drama,Action | UA13+ | English, Hindi
+              {movie.genre} | UA13+ | {movie.language?.map((lang,index)=>(
+                <p key={index} className='inline-block flex-wrap'>{lang.name}{index<movie.language.length-1 && ", "}</p>
+              ))}
             </p>
             <div className="date-container w-[auto] h-[28%]  rounded-xl border-1 border-[#EBEBEB] flex items-center justify-start mt-4">
               <div className="flex items-center justify-between gap-4  w-[auto] p-[1vw]">
@@ -139,7 +207,7 @@ const Showtime = () => {
         </div>
         {/* Time Slots Section */}
          <div className="time-slots bg-[#F9F9F9] mx-[3vw] flex flex-col mt-[-6vw]">
-              <div>
+              {/* <div>
                 <span className="flex items-center justify-start gap-4 px-2 py-2">
                   <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
                   <span className="flex flex-col items-start">
@@ -180,9 +248,17 @@ const Showtime = () => {
                   
                 </div>
                 <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div>
+              </div> */}
 
-                <div>
+              {
+                theatres.length>0?(
+                  theatres.map((t)=>(
+                    <Theatres key={t.id} theatre={t}/>
+                  ))
+                ):(<p className="text-md">No Theatres Added</p>)
+              }
+
+                {/* <div>
                 <span className="flex items-center justify-start gap-4 px-2 py-2">
                   <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
                   <span className="flex flex-col items-start">
@@ -223,10 +299,10 @@ const Showtime = () => {
                   
                 </div>
                 <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div>
+              </div> */}
 
 
-                <div>
+                {/* <div>
                 <span className="flex items-center justify-start gap-4 px-2 py-2">
                   <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
                   <span className="flex flex-col items-start">
@@ -267,9 +343,9 @@ const Showtime = () => {
                   
                 </div>
                 <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div>
+              </div> */}
 
-                 <div>
+                 {/* <div>
                 <span className="flex items-center justify-start gap-4 px-2 py-2">
                   <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
                   <span className="flex flex-col items-start">
@@ -310,10 +386,10 @@ const Showtime = () => {
                   
                 </div>
                 <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div>
+              </div> */}
 
 
-                 <div>
+                 {/* <div>
                 <span className="flex items-center justify-start gap-4 px-2 py-2">
                   <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
                   <span className="flex flex-col items-start">
@@ -354,10 +430,10 @@ const Showtime = () => {
                   
                 </div>
                 <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div>
+              </div> */}
 
 
-                <div className="mb-4">
+                {/* <div className="mb-4">
                 <span className="flex items-center justify-start gap-4 px-2 py-2">
                   <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
                   <span className="flex flex-col items-start">
@@ -398,7 +474,9 @@ const Showtime = () => {
                   
                 </div>
                 
-              </div>
+              </div> */}
+
+
 
 
 

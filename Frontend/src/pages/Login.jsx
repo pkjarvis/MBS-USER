@@ -42,6 +42,7 @@ const Login = () => {
         console.log(response);
         localStorage.setItem("userToken", response.data.token);
         localStorage.setItem("userName", response.data.username);
+        localStorage.setItem("userId",response.data.userId);
         console.log("Logging with flag variable true");
         navigate("/root");
         console.log("Logging with flag variable false");

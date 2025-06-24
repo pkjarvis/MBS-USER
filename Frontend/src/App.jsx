@@ -24,7 +24,6 @@ function App() {
           <Routes>
             <Route path="*" element={<Navigate to="/root" />}/>
             <Route path="/root" element={<Dashboard/>} />
-           
             <Route path="/movies" element={<AllMovies/>} />
             <Route path="/movie" element={<Movie/>}/>
             <Route path="/showtime" element={<Showtime/>}/>

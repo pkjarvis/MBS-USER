@@ -5,7 +5,8 @@ import MovieCardSection from "../component/MovieCardSection";
 import Footer from "../component/Footer";
 import { Rating } from "primereact/rating";
 import { InputTextarea } from "primereact/inputtextarea";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 const Movie = () => {
   const [visible, setVisible] = useState(false);
@@ -13,6 +14,15 @@ const Movie = () => {
   const [text, setText] = useState("");
 
   const navigate=useNavigate("");
+
+  const {state}=useLocation();
+  const m=state?.movie;
+
+  console.log("state",m);
+
+  // if(!movie){
+  //   return <p>Movie data not available</p>
+  // }
 
   useEffect(()=>{
     setVisible(true);
@@ -25,26 +35,58 @@ const Movie = () => {
     setVisible(false);
   }
 
-  const handleSubmit=()=>{
-    setVisible(false);
-    setStar(star);
-    setText(text);
-  }
+  // const handleSubmit=()=>{
+  //   setVisible(false);
+  //   setStar(star);
+  //   setText(text);
+  // }
 
-  const handleBook=()=>{
-    navigate("/showtime");
-  }
-
+ 
   const username=localStorage.getItem("userName");
   useEffect(()=>{
     console.log(username);
   },[username])
 
+  const [movies, setMovies] = useState([]);
+
+
+  useEffect(() => {
+    
+    axiosInstance
+      .get("/get-movies", { withCredentials: true })
+      .then((res) => {
+        console.log(res.data);
+        setMovies(res.data);
+      })
+      .catch((err) =>
+        console.log("Error fetching movies", err.response?.data || err.message)
+      )
+      
+  },[]);
+
+
+   const handleSubmit=async()=>{
+    setVisible(false);
+    setStar(star);
+    setText(text);
+    await axiosInstance.post("/add-review",{text,star},{withCredentials:"true"})
+    .then((res)=>console.log(res.data))
+    .catch((err)=>console.log(err));
+  }
+
+
+  const handleBook=()=>{
+    navigate("/showtime",{state:{movie:m}});
+  }
+
+
+
+
 
   return (
     <div>
       <div className="movie-container">
-        <div className={`${visible?"star-container flex flex-col bg-white shadow-2xl z-10 w-[26%] rounded-xl absolute top-[15vw] mx-[30vw] p-2":"hidden"}`}>
+        <div className={`${visible?"star-container flex flex-col bg-white shadow-2xl z-10 w-[26%] rounded-xl absolute top-[15vw] mx-[32vw] p-2":"hidden"}`}>
           <span className="flex items-center justify-between my-2 mx-[1vw]">
             <p className="font-semibold text-lg">Ratings and Reviews</p>
             <p className="text-3xl cursor-pointer" onClick={handleCancel}>x</p>
@@ -83,22 +125,23 @@ const Movie = () => {
          <div className="theatre-container font-[Inter]">
             <NavBar title={username} />
             <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
-                <a href="http://localhost:5173/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
-                <a href="http://localhost:5173/movie" className='cursor-pointer font-light'>Movie </a>
+                <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
+                <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie </a>
                 
             </span> 
 
         </div>
         <div className="flex items-center justify-start gap-2 h-[35vw] p-2">
-          <div className="h-[33vw] w-[28%]">
+          <div className="h-[30vw] w-[28%]  ml-[2.6vw] overflow-hidden">
             <img
-              src="../src/assets/Azaad.png"
-              alt="Azaad"
-              className="w-[220%] h-[110%]"
+              // src="../src/assets/Azaad.png"
+              src={m.file}
+              alt={m.movie}
+              className="w-[100%] h-[100%]"
             />
           </div>
           <div className="h-[100%] flex flex-col items-start justify-start mt-[6vw] p-[2vw] max-w-[40%]">
-            <h1 className="text-4xl font-bold">Azaad</h1>
+            <h1 className="text-4xl font-bold">{m.movie}</h1>
             <span className="flex items-center justify-start gap-2 mt-2">
               <p className="text-zinc-300">4.2</p>
               <img
@@ -129,20 +172,25 @@ const Movie = () => {
             </span>
             <p className="text-[#6F6F6F] mt-[1vw]">
               <span className="text-black ">2h 49m</span>{" "}
-              Drama,Action|UA13+|English, Hindi
+              {m.genre}|UA13+|{m.language?.map((lang,index)=>(
+                <p key={index} className='inline-block flex-wrap'>
+                  {lang.name}{index<m.language.length-1 && ", "}
+                </p>
+              ))}
             </p>
             <p className="text-black text-md my-[1vw] font-medium">
               About the movie
             </p>
             <p className="text-normal text-black font-light">
-              Set in 1920s India, the story follows Govind, a young stable boy
+              {/* Set in 1920s India, the story follows Govind, a young stable boy
               who forms a deep bond with a spirited horse named Azaad.Amidst the
               backdrop of rebellion and tyranny, his quest to ride the majestic
               animal becomes a journey of courage,awakening him to his own power
-              amidst the country's fight for freedom.
+              amidst the country's fight for freedom. */}
+              {m.description}
             </p>
-            <button className="bg-[#FF5295] p-2 text-xl w-[40%] h-[3vw] rounded-lg text-white font-semibold text-center cursor-pointer my-[1vw]" onClick={handleBook}>
-              Book Now
+            <button className="bg-[#FF5295] p-1 text-xl w-[16vw] h-[3vw] rounded-lg text-white font-semibold text-center cursor-pointer my-[1vw]" onClick={handleBook}>
+              Book 
             </button>
           </div>
         </div>
@@ -310,7 +358,7 @@ const Movie = () => {
 
         <MovieCardSection
           title="You might also like"
-          imgTitle={"../src/assets/dangal.png"}
+          movies={movies.slice(0,4)}
         />
         <div>
           <Footer />
