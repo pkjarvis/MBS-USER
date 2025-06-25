@@ -1,11 +1,33 @@
 import React, { useEffect } from "react";
 import NavBar from "../component/NavBar";
+import { useLocation } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 const Booking = () => {
   const username = localStorage.getItem("userName");
   useEffect(() => {
     console.log(username);
   }, [username]);
+
+  const {state}=useLocation();
+  console.log("state",state)
+  const store=state?.storeId;
+  const price=state?.totalprice;
+  const movie=state?.movie;
+
+  console.log("seats",store);
+  console.log("totalprice",price);
+
+  const movieId=movie.id;
+
+
+
+  const handlePayment=()=>{
+    axiosInstance.post("/api-payu",{store,price,movieId},{withCredentials:true})
+    .then((res)=>console.log(res.data))
+    .catch((err)=>console.log(err))
+  }
+  
 
   return (
     <div>
@@ -53,15 +75,19 @@ const Booking = () => {
             <h1 className="my-1 text-sm ml-1">Monday,May 26,2025, 07:05 PM</h1>
             <hr className="1px solid text-[#A7A7A7] my-1 w-[98%] mx-[0.4vw]" />
             <span>
-              <h1 className="text-sm ml-1 my-1">2 Tickets</h1>
-              <h1 className="text-[#9F9F9F] text-sm ml-1">Prime B7, B8</h1>
+              <h1 className="text-sm ml-1 my-1">{store.length} Tickets</h1>
+              <h1 className="text-[#9F9F9F] text-sm ml-1">
+                {store.map((item,index)=>(
+                  <p key={index} className="inline-flex">{item}{index<store.length-1 && ", "}</p>
+                ))}
+              </h1>
             </span>
           </span>
           <h1 className="text-xl mt-[1vw] font-semibold">Payment Summary</h1>
           <span className="border-1 border-[#A7A7A7] rounded-2xl p-3 mt-[1.2vw]">
              <span className="flex items-center justify-between">
                 <p className="text-sm font-light text-[#626262]">Order Amount</p>
-                <p className="text-sm font-light text-[#626262]">Rs.300</p>
+                <p className="text-sm font-light text-[#626262]">Rs.{price}</p>
              </span>
              <span className="flex items-center justify-between">
                 <p className="text-sm font-light text-[#626262]">Booking Charge</p>
@@ -78,7 +104,7 @@ const Booking = () => {
              <hr className="1px solid text-[#A7A7A7] my-1 w-[99%] mx-[0.1vw]" />
              <span className="flex  items-center justify-between">
                 <p>Total Amount</p>
-                <p>Rs.360</p>
+                <p>Rs.{price+50+5+5}</p>
              </span>
           </span>
           <h1 className="text-xl mt-[1vw] font-semibold">Your details</h1>
@@ -93,9 +119,9 @@ const Booking = () => {
             <img src="../src/assets/Question.png" alt="QuestionMark" className="w-[1vw] h-[1vw]" />
             <p className="text-sm">Terms and Conditions</p>
           </span>
-          <span className="bg-[#FF5295] rounded-2xl p-3 mt-[1.2vw] flex items-center justify-between">
+          <span className="bg-[#FF5295] rounded-2xl p-3 mt-[1.2vw] flex items-center justify-between cursor-pointer" onClick={handlePayment}>
             <span>
-                <p className="text-white text-md">Rs.360</p>
+                <p className="text-white text-md">Rs.{price+50+5+5}</p>
                 <p className="text-white text-sm">Total</p>
             </span>
             <p className="text-white text-md">Proceed to Pay</p>

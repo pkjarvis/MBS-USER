@@ -3,7 +3,7 @@ import NavBar from "../component/NavBar";
 import { Dropdown } from "primereact/dropdown";
 import Footer from "../component/Footer";
 import MainHeader from "../component/MainHeader";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Theatres from "../component/Theatres";
 import axiosInstance from "../utils/axiosInstance";
 
@@ -90,13 +90,6 @@ const Showtime = () => {
   console.log("shotime",showtime.startDate);
 
 
-  const NavigateMovie=()=>{
-    navigate("/movie",{state:{movie:movie}})
-  }
-  const NavigateShowTime=()=>{
-    navigate("/showtime")
-  }
-
 
 
 
@@ -108,13 +101,13 @@ const Showtime = () => {
          <div className="theatre-container font-[Inter]">
             <NavBar title={username} />
             <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
-                <p 
+                <Link to="/"
                 // href="http://localhost:3000/dashboard" 
-                className='cursor-pointer font-light text-zinc-500 ' onClick={NavigateDashboard}>Home / </p>
+                className='cursor-pointer font-light text-zinc-500 ' >Home / </Link>
                 {/* <a href="http://localhost:3000/movie" className='cursor-pointer font-light text-zinc-500'>Movie /</a>
                 <a href="http://localhost:3000/showtime" className='cursor-pointer'> Show Time</a> */}
-                <p className="cursor-pointer font-light text-zinc-500" onClick={NavigateMovie}>Movie /</p>
-                <p className="cursor-pointer " onClick={NavigateShowTime}>Show Time</p>
+                <Link to="/movie" state={{movie}} className="cursor-pointer font-light text-zinc-500" >Movie /</Link>
+                <Link to="/showtime" state={{movie}} className="cursor-pointer " >Show Time</Link>
             </span> 
 
         </div>
@@ -207,275 +200,17 @@ const Showtime = () => {
         </div>
         {/* Time Slots Section */}
          <div className="time-slots bg-[#F9F9F9] mx-[3vw] flex flex-col mt-[-6vw]">
-              {/* <div>
-                <span className="flex items-center justify-start gap-4 px-2 py-2">
-                  <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
-                  <span className="flex flex-col items-start">
-                    <p className="font-semibold text-xl">PVR Elan Miracle</p>
-                    <p className="text-base font-medium">Sec 84,Gurugram</p>
-                    <p className="text-base font-light text-[#707070]">Allow cancellation</p>
-                  </span>
-                </span>
-                <div className="h-[auto] mt-2 grid grid-cols-7 px-2 gap-4 ">
-                  <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                  
-                  
-                </div>
-                <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div> */}
+         
 
               {
                 theatres.length>0?(
                   theatres.map((t)=>(
-                    <Theatres key={t.id} theatre={t}/>
+                    <Theatres key={t.id} theatre={t} state={movie}/>
                   ))
                 ):(<p className="text-md">No Theatres Added</p>)
               }
 
-                {/* <div>
-                <span className="flex items-center justify-start gap-4 px-2 py-2">
-                  <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
-                  <span className="flex flex-col items-start">
-                    <p className="font-semibold text-xl">PVR Elan Miracle</p>
-                    <p className="text-base font-medium">Sec 84,Gurugram</p>
-                    <p className="text-base font-light text-[#707070]">Allow cancellation</p>
-                  </span>
-                </span>
-                <div className="h-[auto] mt-2 grid grid-cols-7 px-2 gap-4 ">
-                  <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                  
-                  
-                </div>
-                <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div> */}
-
-
-                {/* <div>
-                <span className="flex items-center justify-start gap-4 px-2 py-2">
-                  <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
-                  <span className="flex flex-col items-start">
-                    <p className="font-semibold text-xl">PVR Elan Miracle</p>
-                    <p className="text-base font-medium">Sec 84,Gurugram</p>
-                    <p className="text-base font-light text-[#707070]">Allow cancellation</p>
-                  </span>
-                </span>
-                <div className="h-[auto] mt-2 grid grid-cols-7 px-2 gap-4 ">
-                  <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                  
-                  
-                </div>
-                <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div> */}
-
-                 {/* <div>
-                <span className="flex items-center justify-start gap-4 px-2 py-2">
-                  <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
-                  <span className="flex flex-col items-start">
-                    <p className="font-semibold text-xl">PVR Elan Miracle</p>
-                    <p className="text-base font-medium">Sec 84,Gurugram</p>
-                    <p className="text-base font-light text-[#707070]">Allow cancellation</p>
-                  </span>
-                </span>
-                <div className="h-[auto] mt-2 grid grid-cols-7 px-2 gap-4 ">
-                  <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                  
-                  
-                </div>
-                <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div> */}
-
-
-                 {/* <div>
-                <span className="flex items-center justify-start gap-4 px-2 py-2">
-                  <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
-                  <span className="flex flex-col items-start">
-                    <p className="font-semibold text-xl">PVR Elan Miracle</p>
-                    <p className="text-base font-medium">Sec 84,Gurugram</p>
-                    <p className="text-base font-light text-[#707070]">Allow cancellation</p>
-                  </span>
-                </span>
-                <div className="h-[auto] mt-2 grid grid-cols-7 px-2 gap-4 ">
-                  <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                  
-                  
-                </div>
-                <hr className="text-[#C2C2C2] mt-[1vw]"/>
-              </div> */}
-
-
-                {/* <div className="mb-4">
-                <span className="flex items-center justify-start gap-4 px-2 py-2">
-                  <img src="../src/assets/pvr.png" alt="PVR" className="w-[3vw] h-[3vw] rounded-full" />
-                  <span className="flex flex-col items-start">
-                    <p className="font-semibold text-xl">PVR Elan Miracle</p>
-                    <p className="text-base font-medium">Sec 84,Gurugram</p>
-                    <p className="text-base font-light text-[#707070]">Allow cancellation</p>
-                  </span>
-                </span>
-                <div className="h-[auto] mt-2 grid grid-cols-7 px-2 gap-4 ">
-                  <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                 <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                   <div className="font-medium border-1 border-[#ACACAC] p-2 w-[10vw] text-center rounded-2xl cursor-pointer" onClick={handleClick}>
-                    <p className="text-[#008610] ">2:40 PM</p>
-                  </div>
-                  
-                  
-                </div>
-                
-              </div> */}
-
+     
 
 
 

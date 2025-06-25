@@ -1,24 +1,140 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../component/NavBar";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const ShowBooking = () => {
-  const navigate=useNavigate("");
-  const handleSubmit=()=>{
-    navigate("/");
-  }
-
-  const username=localStorage.getItem("userName");
-  useEffect(()=>{
-    console.log(username);
-  },[username])
-
+  const navigate = useNavigate();
 
   
 
-  const handlePopUP=()=>{
-    navigate("/booking")
-  }
+  const username = localStorage.getItem("userName");
+  useEffect(() => {
+    console.log(username);
+  }, [username]);
+
+  const { state } = useLocation();
+  const movie = state?.movie;
+
+  
+
+  // const NavigateDashboard = () => {
+  //   navigate("/");
+  // };
+
+  // const NavigateMovie = () => {
+  //   navigate("/movie", { state: { movie: movie } });
+  // };
+
+  // const middlerows = [
+  //   { label: "G", price: 320, seat: 15 },
+  //   { label: "H", price: 320, seat: 15 },
+  //   { label: "I", price: 320, seat: 15 },
+  //   { label: "J", price: 320, seat: 15 },
+  //   { label: "K", price: 320, seat: 15 },
+  //   { label: "L", price: 320, seat: 15 },
+  // ];
+
+  // const rows = [
+  //   { label: "M", price: 560, seat: 10 },
+  //   { label: "G", price: 320, seat: 15 },
+  //   { label: "H", price: 320, seat: 15 },
+  //   { label: "I", price: 320, seat: 15 },
+  //   { label: "J", price: 320, seat: 15 },
+  //   { label: "K", price: 320, seat: 15 },
+  //   { label: "L", price: 320, seat: 15 },
+  //   { label: "A", price: 300, seat: 11 },
+  //   { label: "B", price: 300, seat: 11 },
+  //   { label: "C", price: 300, seat: 11 },
+  //   { label: "D", price: 300, seat: 11 },
+  //   { label: "E", price: 300, seat: 11 },
+  //   { label: "F", price: 300, seat: 11 },
+  // ];
+
+  // const [selectedSeats, setSelectedSeats] = useState([]);
+  // const [totalPrice, setTotalPrice] = useState(0);
+
+  // const handleSeatClick = (row, seatNumber, price) => {
+  //   const seatId = `${row}${seatNumber}`;
+  //   const isSelected = selectedSeats.includes(seatId);
+
+  //   if (isSelected) {
+  //     // here prev-price is done such that when user is deselecting the seat price should be reduced
+  //     setSelectedSeats(selectedSeats.filter((s) => s !== seatId));
+  //     setTotalPrice((prev) => prev - price);
+  //   } else {
+  //     setSelectedSeats([...selectedSeats, seatId]);
+  //     setTotalPrice((prev) => prev + price);
+  //   }
+  // };
+
+
+  // var totalprice=0;
+  // var storeId=[];
+    const [storeId,setStoreId]=useState([]);
+    const [totalprice,setTotalPrice]=useState(0);
+
+  const handleMiddleRow = (s,id) => {
+    const finalId = s + id;
+    console.log(finalId);
+    var element = document.getElementById(finalId);
+    const selected=storeId.includes(finalId);
+
+    let newStoreId=[...storeId];
+    let newprice=totalprice;
+
+    if (element) {
+      if(!selected){
+        newStoreId.push(finalId)
+        element.style.setProperty("background-color", "#59B200","important");
+        if(s==="A" || s=="B" || s==="C" || s==="D" || s==="E" || s==="F"){
+          newprice+=300;
+        }
+        else if(s==="M"){
+          newprice+=560;
+        }
+        else{
+          newprice+=320;
+        }
+      }
+        else{
+        newStoreId=newStoreId.filter((item)=>item!==finalId);
+        element.style.setProperty("background-color","#E5E5E5","important");
+        if(s==="A" || s=="B" || s==="C" || s==="D" || s==="E" || s==="F"){
+            newprice-=300;
+        }
+        else if(s==="M"){
+          newprice-=560;
+        }
+        else{
+          newprice-=320;
+        }
+        
+        
+
+      }
+      setStoreId(newStoreId);
+      setTotalPrice(newprice);
+      console.log("totalprice",totalprice);
+    }
+    
+    
+    
+    
+  };
+
+  console.log(totalprice)
+  
+
+  const handleSubmit = () => {
+    console.log("final values of store id, totalprice",totalprice);
+    console.log("final values of store id, totalprice",storeId);
+    navigate("/booking",{state:{storeId,totalprice,movie}});
+  };
+
+  // const handlePopUP = () => {
+  //   navigate("/booking",{state:{totalprice,storeId,movie}});
+  // };
+
 
   return (
     <div>
@@ -26,32 +142,39 @@ const ShowBooking = () => {
         <div className="theatre-container font-[Inter]">
           <NavBar title={username} />
           <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
-            <a
-              href="http://localhost:3000/dashboard"
+            <Link
+              // href="http://localhost:3000/dashboard"
+              to="/"
               className="cursor-pointer font-light text-zinc-500 "
             >
               Home /
-            </a>
-            <a
-              href="http://localhost:3000/movie"
+            </Link>
+            <Link
+              // href="http://localhost:3000/movie"
+              to="/movie"
+              state={{ movie:movie }}
               className="cursor-pointer font-light text-zinc-500"
             >
               Movie /
-            </a>
-            <a
-              href="http://localhost:3000/showtime"
+            </Link>
+            <Link
+              // href="http://localhost:3000/showtime"
+              to="/showtime"
+              state={{ movie:movie }}
               className="cursor-pointer text-zinc-500"
             >
               Showtime /
-            </a>
-            <a href="http://localhost:3000/showtime" className="cursor-pointer">
+            </Link>
+            <Link
+              to="/booking"
+              state={{ movie:movie }}
+              // href="http://localhost:3000/showtime"
+              className="cursor-pointer"
+            >
               Show Booking
-            </a>
+            </Link>
           </span>
         </div>
-      
-      
-
 
         <div className="header flex justify-start mx-[3vw] mt-[2vw] gap-4 bg-[#F9F9F9] py-[1.4vw]">
           <img
@@ -90,38 +213,67 @@ const ShowBooking = () => {
               <hr className="my-2 text-[#D6D6D6]" />
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
                 <p className="text-[#949494] font-normal">M</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[12vw]">
+                <div id="M1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[12vw]" onClick={()=>handleMiddleRow("M",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="M2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("M",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw]">
+                <div id="M3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw]" onClick={()=>handleMiddleRow("M",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="M4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("M",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw]">
+                <div id="M5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw]" onClick={()=>handleMiddleRow("M",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="M6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("M",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw]">
+                <div id="M7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw]" onClick={()=>handleMiddleRow("M",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="M8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("M",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw]">
+                <div id="M9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw]" onClick={()=>handleMiddleRow("M",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw] ">
+                <div id="M10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[2vw] " onClick={()=>handleMiddleRow("M",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
               </div>
             </div>
+
+            {/* {rows.map((row) => (
+  <div key={row.label} className="main-content mx-[3vw] p-[1vw]">
+    <h3 className="text-[#949494] font-normal">Rs.{row.price}</h3>
+    <hr className="my-2 text-[#D6D6D6]" />
+
+    <div className="flex items-center gap-4 justify-start my-[1.3vw]">
+      <p className="text-[#949494] font-normal w-[2vw]">{row.label}</p>
+
+      {Array.from({ length: row.seats }, (_, i) => {
+        const seatNumber = i + 1;
+        const seatId = `${row.label}${seatNumber}`;
+        const isSelected = selectedSeats.includes(seatId);
+
+        return (
+          <div
+            key={seatId}
+            onClick={() => handleSeatClick(row.label, seatNumber, row.price)}
+            className={`h-[2.4vw] w-[2.4vw] ${
+              isSelected ? "bg-[#59B200]" : "bg-[#E5E5E5]"
+            } border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer`}
+          >
+            <p className="text-center text-base text-white">{seatNumber}</p>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+))} */}
 
             {/* Middle tier prices */}
             <div className="main-content mx-[3vw] p-[1vw]">
@@ -129,290 +281,291 @@ const ShowBooking = () => {
               <hr className="my-1 text-[#D6D6D6]" />
               {/* Repetiton Seats */}
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
+               
                 <p className="text-[#949494] font-normal">L</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw]">
+                <div style={{ backgroundColor: "#E5E5E5" }} id="L1" className="h-[2.4vw] w-[2.4vw]  border-1 border-[#D6D6D6]  rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer" onClick={()=>handleMiddleRow("L",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div style={{ backgroundColor: "#E5E5E5" }} id="L2" className="h-[2.4vw] w-[2.4vw]  border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center"  onClick={()=>handleMiddleRow("L",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div style={{ backgroundColor: "#E5E5E5" }}  id="L3" className="h-[2.4vw] w-[2.4vw]  border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("L",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="L4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("L",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]">
+                <div id="L5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]" onClick={()=>handleMiddleRow("L",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="L6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("L",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="L7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("L",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="L8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("L",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="L9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("L",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="L10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("L",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="L11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("L",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] ">
+                <div id="L12" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] " onClick={()=>handleMiddleRow("L",12)}> 
                   <p className="text-center text-base  text-white">12</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="L13" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("L",13)}>
                   <p className="text-center text-base  text-white">13</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="L14" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("L",14)}>
                   <p className="text-center text-base  text-white">14</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="L15" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("L",15)}>
                   <p className="text-center text-base  text-white">15</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
                 <p className="text-[#949494] font-normal">K</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer">
+                <div id="K1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer" onClick={()=>handleMiddleRow("K",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer ">
+                <div id="K2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer " onClick={()=>handleMiddleRow("K",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="K3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("K",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer ">
+                <div id="K4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer " onClick={()=>handleMiddleRow("K",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer">
+                <div id="K5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer" onClick={()=>handleMiddleRow("K",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="K6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("K",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="K7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("K",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="K8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("K",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="K9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("K",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="K10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("K",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="K11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("K",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer ">
+                <div id="K12" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer " onClick={()=>handleMiddleRow("K",12)}>
                   <p className="text-center text-base  text-white">12</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer ">
+                <div id="K13" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer " onClick={()=>handleMiddleRow("K",13)}>
                   <p className="text-center text-base  text-white">13</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer">
+                <div id="K14" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer" onClick={()=>handleMiddleRow("K",14)}>
                   <p className="text-center text-base  text-white">14</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer">
+                <div id="K15" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer" onClick={()=>handleMiddleRow("K",15)}>
                   <p className="text-center text-base  text-white">15</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
                 <p className="text-[#949494] font-normal">J</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer">
+                <div id="J1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer" onClick={()=>handleMiddleRow("J",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer ">
+                <div id="J2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer " onClick={()=>handleMiddleRow("J",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="J3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("J",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="J4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("J",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer">
+                <div id="J5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer" onClick={()=>handleMiddleRow("J",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="J6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("J",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="J7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("J",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="J8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("J",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="J9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("J",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="J10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("J",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="J11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("J",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer">
+                <div id="J12" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer" onClick={()=>handleMiddleRow("J",12)}>
                   <p className="text-center text-base  text-white">12</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer ">
+                <div id="J13" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer " onClick={()=>handleMiddleRow("J",13)}>
                   <p className="text-center text-base  text-white">13</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer">
+                <div id="J14" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer" onClick={()=>handleMiddleRow("J",14)}>
                   <p className="text-center text-base  text-white">14</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer">
+                <div id="J15" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer" onClick={()=>handleMiddleRow("J",15)}>
                   <p className="text-center text-base  text-white">15</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
                 <p className="text-[#949494] font-normal">I</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4.3vw] cursor-pointer">
+                <div id="I1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4.3vw] cursor-pointer" onClick={()=>handleMiddleRow("I",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="I2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("I",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="I3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("I",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="I4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("I",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer">
+                <div id="I5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer" onClick={()=>handleMiddleRow("I",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="I6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("I",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="I7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("I",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer">
+                <div id="I8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer" onClick={()=>handleMiddleRow("I",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="I9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("I",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="I10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("I",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="I11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("I",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]  cursor-pointer">
+                <div id="I12" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]  cursor-pointer" onClick={()=>handleMiddleRow("I",12)}>
                   <p className="text-center text-base  text-white">12</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="I13" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("I",13)}>
                   <p className="text-center text-base  text-white">13</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="I14" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("I",14)}>
                   <p className="text-center text-base  text-white">14</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="I15" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("I",15)}>
                   <p className="text-center text-base  text-white">15</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
                 <p className="text-[#949494] font-normal">H</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[3.8vw]">
+                <div id="H1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[3.8vw]" onClick={()=>handleMiddleRow("H",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="H2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center "  onClick={()=>handleMiddleRow("H",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="H3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("H",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="H4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("H",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]">
+                <div id="H5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]" onClick={()=>handleMiddleRow("H",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="H6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("H",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="H7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("H",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="H8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("H",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="H9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("H",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="H10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("H",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="H11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("H",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] ">
+                <div id="H12" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] " onClick={()=>handleMiddleRow("H",12)}>
                   <p className="text-center text-base  text-white">12</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="H13" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("H",13)}>
                   <p className="text-center text-base  text-white">13</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="H14" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("H",14)}>
                   <p className="text-center text-base  text-white">14</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="H15" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("H",15)}>
                   <p className="text-center text-base  text-white">15</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
                 <p className="text-[#949494] font-normal">G</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[3.8vw]">
+                <div id="G1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[3.8vw]" onClick={()=>handleMiddleRow("G",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="G2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center "  onClick={()=>handleMiddleRow("G",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="G3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center"  onClick={()=>handleMiddleRow("G",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="G4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center "  onClick={()=>handleMiddleRow("G",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]">
+                <div id="G5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]" onClick={()=>handleMiddleRow("G",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="G6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("G",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="G7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("G",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="G8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("G",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="G9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("G",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="G10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("G",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="G11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("G",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] ">
+                <div id="G12" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] " onClick={()=>handleMiddleRow("G",12)}>
                   <p className="text-center text-base  text-white">12</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="G13" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("G",13)}>
                   <p className="text-center text-base  text-white">13</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="G14" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("G",14)}>
                   <p className="text-center text-base  text-white">14</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  ">
+                <div id="G15" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  " onClick={()=>handleMiddleRow("G",15)}>
                   <p className="text-center text-base  text-white">15</p>
                 </div>
               </div>
@@ -424,245 +577,251 @@ const ShowBooking = () => {
               <hr className="my-2 text-[#D6D6D6]" />
               {/* Repetiton Seats */}
               <div className="flex items-center gap-4 justify-start my-[2vw]">
-                <p className="text-[#949494] font-normal">L</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw]">
+                <p className="text-[#949494] font-normal">A</p>
+                <div id="A1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw]" onClick={()=>handleMiddleRow("A",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="A2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("A",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="A3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("A",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="A4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("A",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]">
+                <div id="A5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]" onClick={()=>handleMiddleRow("A",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="A6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("A",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="A7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("A",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="A8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("A",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="A9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("A",9)}> 
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div  id="A10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("A",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="A11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("A",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
-                <p className="text-[#949494] font-normal">K</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer">
+                <p className="text-[#949494] font-normal">B</p>
+                <div id="B1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer" onClick={()=>handleMiddleRow("B",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer ">
+                <div  id="B2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer " onClick={()=>handleMiddleRow("B",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="B3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("B",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer ">
+                <div id="B4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer " onClick={()=>handleMiddleRow("B",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer">
+                <div id="B5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer" onClick={()=>handleMiddleRow("B",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="B6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("B",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="B7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("B",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="B8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("B",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="B9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("B",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="B10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("B",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="B11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("B",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
-                <p className="text-[#949494] font-normal">J</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer">
+                <p className="text-[#949494] font-normal">C</p>
+                <div id="C1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer" onClick={()=>handleMiddleRow("C",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer ">
+                <div id="C2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer " onClick={()=>handleMiddleRow("C",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="C3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("C",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="C4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("C",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer">
+                <div id="C5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer" onClick={()=>handleMiddleRow("C",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="C6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("C",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="C7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("C",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="C8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("C",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="C9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("C",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="C10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("C",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div id="C11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("C",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
-                <p className="text-[#949494] font-normal">I</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4.3vw] cursor-pointer">
+                <p className="text-[#949494] font-normal">D</p>
+                <div id="D1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[4vw] cursor-pointer" onClick={()=>handleMiddleRow("D",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div  id="D2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("D",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div  id="D3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("D",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div  id="D4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("D",4)}> 
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer">
+                <div  id="D5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw] cursor-pointer" onClick={()=>handleMiddleRow("D",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div  id="D6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("D",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div  id="D7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("D",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer">
+                <div  id="D8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center  cursor-pointer" onClick={()=>handleMiddleRow("D",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div  id="D9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("D",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div  id="D10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("D",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer">
+                <div  id="D11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer" onClick={()=>handleMiddleRow("D",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
-                <p className="text-[#949494] font-normal">H</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[3.8vw]">
+                <p className="text-[#949494] font-normal">E</p>
+                <div id="E1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[3.8vw]" onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="E2"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center "  onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="E3"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="E4"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]">
+                <div id="E5"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]" onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="E6"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="E7"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="E8"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="E9"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="E10"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="E11"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 justify-start my-[1.3vw]">
-                <p className="text-[#949494] font-normal">G</p>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[3.8vw]">
+                <p className="text-[#949494] font-normal">F</p>
+                <div id="F1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[3.8vw]" onClick={()=>handleMiddleRow("F",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="F2" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center "  onClick={()=>handleMiddleRow("F",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="F3" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("F",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="F4" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("F",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]">
+                <div id="F5" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]" onClick={()=>handleMiddleRow("F",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="F6" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("F",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="F7" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("F",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ">
+                <div id="F8" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("F",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="F9" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("F",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="F10" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("F",10)}> 
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center">
+                <div id="F11" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("F",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
               </div>
-             
             </div>
+
+
+            
             <div className="flex flex-col items-center justify-center">
-                <img
-                  src="../src/assets/rect2.png"
-                  alt="Overlayed image"
-                  className="w-[20%] h-[3vw] z-10 "
-                />
-                <img
-                  src="../src/assets/rect1.jpg"
-                  alt="Overlayed image"
-                  className="w-[22%] h-[2vw] mt-[-2vw]"
-                />
-                <p className="text-center text-md text-zinc-300">Screen</p>
-              </div>
+              <img
+                src="../src/assets/rect2.png"
+                alt="Overlayed image"
+                className="w-[20%] h-[3vw] z-10 "
+              />
+              <img
+                src="../src/assets/rect1.jpg"
+                alt="Overlayed image"
+                className="w-[22%] h-[2vw] mt-[-2vw]"
+              />
+              <p className="text-center text-md text-zinc-300">Screen</p>
+            </div>
           </div>
-          <div className="flex items-center justify-around p-[1vw] w-[100%] bg-[#F0F0F0] relative mb-4" onClick={handlePopUP}>
+          <div
+            className="flex items-center justify-around p-[1vw] w-[100%] bg-[#F0F0F0] relative mb-4"
+            // onClick={handlePopUP}
+          >
             <p className="font-bold text-xl">1 seat selected</p>
-             <button className="bg-[#FF5295]  text-md w-[12vw] h-[2vw]  rounded-lg text-white font-semibold text-center cursor-pointer mx-[1vw]" onClick={handleSubmit}>
-               Submit
+            <button
+              className="bg-[#FF5295]  text-md w-[12vw] h-[2vw]  rounded-lg text-white font-semibold text-center cursor-pointer mx-[1vw]"
+              onClick={handleSubmit}
+            >
+              Submit
             </button>
           </div>
-
-           
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // theatre-> id,theatrename,address,cityName,stateName,status,totalscreens,theatrefile,value
 // showtime -> id:Date.now(),theatrename,startDate,moviename,datetime12h,datetime,timearray,selectedCities,
@@ -9,6 +9,9 @@ const Theatres = ({ theatre }) => {
   const [showtime, setShowTime] = useState([]);
 //   const [movies,setMovies]=useState([]);
   const navigate=useNavigate("");
+
+  const {state}=useLocation();
+  const movie=state?.movie;
 
   useEffect(() => {
     axiosInstance
@@ -38,7 +41,7 @@ const Theatres = ({ theatre }) => {
   console.log("showtime", showtime);
 
   const handleClick = () => {
-    navigate("/showbooking");
+    navigate("/showbooking",{state:{movie:movie}});
   };
 
   return (

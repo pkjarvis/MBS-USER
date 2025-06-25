@@ -5,7 +5,7 @@ import ImageContainer from "../component/ImageContainer";
 import MovieCard from "../component/MovieCard";
 import { Dropdown } from "primereact/dropdown";
 import Footer from "../component/Footer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 
 const AllMovies = () => {
@@ -29,10 +29,7 @@ const AllMovies = () => {
     { name: "Malyalam", code: "MLY" },
   ];
 
-  const handleClick=()=>{
-    const navigate=useNavigate("");
-    navigate("/movie");
-  }
+
 
   const username=localStorage.getItem("userName");
     useEffect(()=>{
@@ -72,8 +69,10 @@ const AllMovies = () => {
         <div className="theatre-container font-[Inter]">
             <NavBar title={username} />
             <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
-                <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
-                <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie</a>
+                {/* <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a> */}
+                {/* <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie</a> */}
+                <Link to="/dashboard" className="cursor-pointer font-light text-zinc-500 ">Home /</Link>
+                <Link to="/movie" className='cursor-pointer font-light'>Movie</Link>
             </span> 
 
         </div>
@@ -118,20 +117,7 @@ const AllMovies = () => {
             ):(<p className="text-md ">No movies added</p>)
             
           }
-            
-            {/* <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/>
-            <MovieCard imgURL={"../src/assets/aliceWonderland.png"}/> */}
-            
+          
             
           </div>
           <div className='  h-[14vw]  my-[4vw]'>

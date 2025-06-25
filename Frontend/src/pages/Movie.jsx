@@ -5,7 +5,7 @@ import MovieCardSection from "../component/MovieCardSection";
 import Footer from "../component/Footer";
 import { Rating } from "primereact/rating";
 import { InputTextarea } from "primereact/inputtextarea";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 
 const Movie = () => {
@@ -69,7 +69,8 @@ const Movie = () => {
     setVisible(false);
     setStar(star);
     setText(text);
-    await axiosInstance.post("/add-review",{text,star},{withCredentials:"true"})
+    const movieId=m.id;
+    await axiosInstance.post("/add-review",{text,star,movieId},{withCredentials:"true"})
     .then((res)=>console.log(res.data))
     .catch((err)=>console.log(err));
   }
@@ -125,8 +126,10 @@ const Movie = () => {
          <div className="theatre-container font-[Inter]">
             <NavBar title={username} />
             <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
-                <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a>
-                <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie </a>
+                {/* <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a> */}
+                <Link to="/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home /</Link>
+                {/* <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie </a> */}
+                <Link to="/movie" className='cursor-pointer font-light'>Movie</Link>
                 
             </span> 
 
