@@ -20,11 +20,14 @@ const Movie = () => {
 
   console.log("state", m);
 
+  
+
   // if(!movie){
   //   return <p>Movie data not available</p>
   // }
 
   useEffect(() => {
+    window.scrollTo(0,0);
     setVisible(true);
   }, []);
 
@@ -35,11 +38,7 @@ const Movie = () => {
     setVisible(false);
   };
 
-  // const handleSubmit=()=>{
-  //   setVisible(false);
-  //   setStar(star);
-  //   setText(text);
-  // }
+
 
   const username = localStorage.getItem("userName");
   useEffect(() => {
@@ -58,6 +57,10 @@ const Movie = () => {
       .catch((err) =>
         console.log("Error fetching movies", err.response?.data || err.message)
       );
+
+      
+    window.scrollTo(0,0);
+    
   }, []);
 
   const handleSubmit = async () => {
@@ -84,6 +87,10 @@ const Movie = () => {
         setReviews(res.data.reviews);
       })
       .catch((err) => console.log(err));
+       
+    window.scrollTo(0,0);
+        
+      
   }, []);
 
   return (
@@ -201,11 +208,6 @@ const Movie = () => {
               About the movie
             </p>
             <p className="text-normal text-black font-light">
-              {/* Set in 1920s India, the story follows Govind, a young stable boy
-              who forms a deep bond with a spirited horse named Azaad.Amidst the
-              backdrop of rebellion and tyranny, his quest to ride the majestic
-              animal becomes a journey of courage,awakening him to his own power
-              amidst the country's fight for freedom. */}
               {m.description}
             </p>
             <button
@@ -287,126 +289,7 @@ const Movie = () => {
             ) : (
               <p className="text-sm">No reviews added yet</p>
             )}
-            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
-              <p className="text-gray-300">
-                <span className="text-black">Tanishka Kaur</span> 2d ago
-              </p>
-              <hr className="w-[100%] h-[1vw] mt-1 text-[#E8E8E8]" />
-              <p className="text-wrap mt-[-0.6vw] text-sm">
-                "Just watched Azaad - visually stunning but the story felt a bit
-                flat.Loved the bond with the horse though!"
-              </p>
-              <span className="flex items-center justify-start gap-2 rounded-xl text-white my-1">
-                <img
-                  src="../src/assets/thumbsUp.png"
-                  alt="ThumbsUp"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">101</p>
-                <img
-                  src="../src/assets/thumbsDown.png"
-                  alt="ThumbsDown"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">50</p>
-              </span>
-            </div> */}
-            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
-              <p className="text-gray-300">
-                <span className="text-black">Tanishka Kaur</span> 2d ago
-              </p>
-              <hr className="w-[100%] h-[1vw] mt-1 text-[#E8E8E8]" />
-              <p className="text-wrap mt-[-0.6vw] text-sm">
-                "Just watched Azaad - visually stunning but the story felt a bit
-                flat.Loved the bond with the horse though!"
-              </p>
-              <span className="flex items-center justify-start gap-2 rounded-xl text-white my-1">
-                <img
-                  src="../src/assets/thumbsUp.png"
-                  alt="ThumbsUp"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">101</p>
-                <img
-                  src="../src/assets/thumbsDown.png"
-                  alt="ThumbsDown"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">50</p>
-              </span>
-            </div> */}
-            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
-              <p className="text-gray-300">
-                <span className="text-black">Tanishka Kaur</span> 2d ago
-              </p>
-              <hr className="w-[100%] h-[1vw] mt-1 text-[#E8E8E8]" />
-              <p className="text-wrap mt-[-0.6vw] text-sm">
-                "Just watched Azaad - visually stunning but the story felt a bit
-                flat.Loved the bond with the horse though!"
-              </p>
-              <span className="flex items-center justify-start gap-2 rounded-xl text-white my-1">
-                <img
-                  src="../src/assets/thumbsUp.png"
-                  alt="ThumbsUp"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">101</p>
-                <img
-                  src="../src/assets/thumbsDown.png"
-                  alt="ThumbsDown"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">50</p>
-              </span>
-            </div> */}
-            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
-              <p className="text-gray-300">
-                <span className="text-black">Tanishka Kaur</span> 2d ago
-              </p>
-              <hr className="w-[100%] h-[1vw] mt-1 text-[#E8E8E8]" />
-              <p className="text-wrap mt-[-0.6vw] text-sm">
-                "Just watched Azaad - visually stunning but the story felt a bit
-                flat.Loved the bond with the horse though!"
-              </p>
-              <span className="flex items-center justify-start gap-2 rounded-xl text-white my-1">
-                <img
-                  src="../src/assets/thumbsUp.png"
-                  alt="ThumbsUp"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">101</p>
-                <img
-                  src="../src/assets/thumbsDown.png"
-                  alt="ThumbsDown"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">50</p>
-              </span>
-            </div> */}
-            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
-              <p className="text-gray-300">
-                <span className="text-black">Tanishka Kaur</span> 2d ago
-              </p>
-              <hr className="w-[100%] h-[1vw] mt-1 text-[#E8E8E8]" />
-              <p className="text-wrap mt-[-0.6vw] text-sm">
-                "Just watched Azaad - visually stunning but the story felt a bit
-                flat.Loved the bond with the horse though!"
-              </p>
-              <span className="flex items-center justify-start gap-2 rounded-xl text-white my-1">
-                <img
-                  src="../src/assets/thumbsUp.png"
-                  alt="ThumbsUp"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">101</p>
-                <img
-                  src="../src/assets/thumbsDown.png"
-                  alt="ThumbsDown"
-                  className="w-4 h-4"
-                />
-                <p className="text-gray-300 text-sm">50</p>
-              </span>
-            </div> */}
+        
           </div>
         </div>
 

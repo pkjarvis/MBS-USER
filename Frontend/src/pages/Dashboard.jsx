@@ -15,7 +15,12 @@ const Dashboard = () => {
 
 
   const [movies, setMovies] = useState([]);
-  const username=localStorage.getItem("userName");
+  
+  var username=localStorage.getItem("userName");
+
+  useEffect(()=>{
+    username=localStorage.getItem("userName");
+  },[])
 
 
   useEffect(() => {

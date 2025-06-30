@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -10,6 +10,10 @@ const MovieCard = ({movie}) => {
   if(!movie || !movie.file) return null;
  
   const navigate=useNavigate("");
+    useEffect(() => {
+      window.scrollTo(0,0);
+      
+    }, []);
 
   const handleClick=()=>{
     navigate("/movie",{state:{movie}});

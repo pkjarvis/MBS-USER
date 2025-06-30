@@ -24,8 +24,12 @@ const Profile = () => {
   };
 
   const handleSave = ()=>{
+    
     axiosInstance.post("/update-profile",{name,email},{withCredentials:true})
-    .then(res=>console.log(res.data))
+    .then(res=>{
+      console.log(res.data)
+      localStorage.setItem("userName",name);
+     })
     .catch(err=>console.log(err))
   }
 
@@ -66,7 +70,7 @@ const Profile = () => {
                 placeholder="Enter first name here"
                 value={name}
                 className="w-[30vw] h-[2vw] p-1 bg-white border-1 border-[#CCCCCC] focus:outline-none rounded-md"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value.toUpperCase())}
               />
             </span>
             

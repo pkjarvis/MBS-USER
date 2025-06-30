@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
 import axiosInstance from "../utils/axiosInstance";
+import { Link } from "react-router-dom";
 
 const MovieCardSection = ({ title, movies = [] }) => {
   //  const [movies, setMovies] = useState([]);
@@ -17,25 +18,26 @@ const MovieCardSection = ({ title, movies = [] }) => {
   //     )
 
   // },[]);
+    useEffect(() => {
+      window.scrollTo(0,0);
+      
+    }, []);
 
   return (
     <div>
       <div className="card-container mx-[3vw] bg-white h-[35vw]">
         <span className="flex items-center justify-between mt-[4vw] ">
           <p className="text-3xl font-bold">{title}</p>
-          <a
-            href="http://localhost:3000/movies"
+          <Link
+            to="http://localhost:3000/movies"
             className="underline text-gray-500"
           >
             see all
-          </a>
+          </Link>
         </span>
 
         <div className="grid grid-cols-4 gap-[3vw]">
-          {/* <MovieCard imgURL={props.imgTitle}/>
-                 <MovieCard imgURL={props.imgTitle}/>
-                 <MovieCard imgURL={props.imgTitle}/>
-                 <MovieCard imgURL={props.imgTitle}/> */}
+          
           {movies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
