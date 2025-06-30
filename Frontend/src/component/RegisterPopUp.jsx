@@ -20,12 +20,12 @@ const RegisterPopUp = () => {
           {/* <p className="text-3xl text-black absolute right-9 top-5" onClick={handleClick}>x</p> */}
         </span>
         <div className="w-[34%] h-[2.2vw] ">
-          <img src="../src/assets/Welcome.png" alt="Welcome" />
+          <img src="/assets/Welcome.png" alt="Welcome" />
         </div>
         <div className="w-[100%] flex flex-col items-center justify-center gap-7 ">
           <span className="flex items-center justify-center gap-2 border-1 border-[#898888] rounded-xl w-[75%] h-[4vw] p-[2vw]">
             <img
-              src="../src/assets/GoogleLogo.png"
+              src="/assets/GoogleLogo.png"
               alt="Google"
               className="w-[1.4vw] h-[1.2vw]"
             />
@@ -35,7 +35,7 @@ const RegisterPopUp = () => {
           </span>
           <span className="flex items-center justify-center gap-2 border-1 border-[#898888] rounded-xl w-[75%] h-[4vw] p-[2vw]" onClick={handleRoute}>
             <img
-              src="../src/assets/email.png"
+              src="/assets/email.png"
               alt="Google"
               className="w-[2vw] h-[1.3vw]"
             />
@@ -46,7 +46,7 @@ const RegisterPopUp = () => {
         </div>
         <p className="text-normal font-light">OR</p>
         <span className="flex items-center justify-evenly gap-4">
-            <img src="../src/assets/flagImg.png" alt="Flag" className="w-[1vw] h-[1vw]" />
+            <img src="/assets/flagImg.png" alt="Flag" className="w-[1vw] h-[1vw]" />
             <p className="text-[#A3A3A3]">+91</p>
             <p className="text-[#A3A3A3] underline text-[1.2vw]">Continue with mobile number</p>
         </span>

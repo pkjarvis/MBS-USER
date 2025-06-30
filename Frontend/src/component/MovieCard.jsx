@@ -29,11 +29,11 @@ const MovieCard = ({movie}) => {
                 <p className='text-md text-black font-semibold mx-2'>{movie.movie || "Alice Wonderland"}</p>
                  <span className='flex items-center justify-start gap-2 ml-3'>
                     <p className='text-gray-400'>4.2</p>
-                    <img src="../src/assets/Star.png" alt="Star" className='w-[1vw] h-[1vw]' />
-                    <img src="../src/assets/Star.png" alt="Star" className='w-[1vw] h-[1vw]' />
-                    <img src="../src/assets/Star.png" alt="Star" className='w-[1vw] h-[1vw]' />
-                    <img src="../src/assets/Star.png" alt="Star" className='w-[1vw] h-[1vw]' />
-                    <img src="../src/assets/Star14.png" alt="Star14" className='w-[1.16vw] h-[1.18vw]' />
+                    <img src="/assets/Star.png" alt="Star" className='w-[1vw] h-[1vw]' />
+                    <img src="/assets/Star.png" alt="Star" className='w-[1vw] h-[1vw]' />
+                    <img src="/assets/Star.png" alt="Star" className='w-[1vw] h-[1vw]' />
+                    <img src="/assets/Star.png" alt="Star" className='w-[1vw] h-[1vw]' />
+                    <img src="/assets/Star14.png" alt="Star14" className='w-[1.16vw] h-[1.18vw]' />
                 </span>
                 <p className='text-[#6F6F6F] font-light mx-2 flex-wrap'>{movie.genre} | UA13+ | {movie.language?.map((lang,index)=>(
                   <p key={index} className='inline-block flex-wrap'>{lang.name}{index<movie.language.length-1 && ", "}</p>

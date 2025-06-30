@@ -48,7 +48,7 @@ const Theatres = ({ theatre }) => {
     <div>
       <span className="flex items-center justify-start gap-4 px-2 py-2">
         <img
-          src={theatre.file || "../src/assets/pvr.png"}
+          src={theatre.file || "/assets/pvr.png"}
           alt={theatre.theatrename}
           className="w-[3vw] h-[3vw] rounded-full"
         />

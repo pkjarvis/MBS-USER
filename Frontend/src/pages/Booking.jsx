@@ -101,7 +101,7 @@ const Booking = () => {
         <div className="h-[auto] bg-[rgba(248, 248, 248, 0.55)] mx-[20vw] mt-[2vw] shadow-2xl p-[2.4vw] flex flex-col rounded-xl ">
           <span className="flex gap-2 items-center justify-start">
             <img
-              src="../src/assets/pvr.png"
+              src="/assets/pvr.png"
               alt="PVR"
               className="w-[5%] h-[3vw] rounded-full"
             />
@@ -160,14 +160,14 @@ const Booking = () => {
               <p className="text-[#626262]">Delhi-NCR</p>
             </span>
             <img
-              src="../src/assets/Pencil.png"
+              src="/assets/Pencil.png"
               alt="Pencil"
               className="w-[1.5vw] h-[1.5vw]"
             />
           </span>
           <span className="border-1 border-[#A7A7A7] rounded-2xl p-3 mt-[1.2vw] flex items-center gap-[0.6vw]">
             <img
-              src="../src/assets/Question.png"
+              src="/assets/Question.png"
               alt="QuestionMark"
               className="w-[1vw] h-[1vw]"
             />

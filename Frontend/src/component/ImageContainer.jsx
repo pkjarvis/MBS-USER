@@ -13,25 +13,25 @@ const ImageContainer = () => {
           onClick={() => handleClick("../src/assets/Bg-2.png")}
           className="w-[25%] overflow-hidden object-cover"
         >
-          <img src="../src/assets/Bg-2.png" alt="Bg-2" />
+          <img src="/assets/Bg-2.png" alt="Bg-2" />
         </span>
         <span
-          onClick={() => handleClick("../src/assets/Bg-3.png")}
+          onClick={() => handleClick("/assets/Bg-3.png")}
           className="w-[25%] overflow-hidden object-cover"
         >
-          <img src="../src/assets/Bg-3.png" alt="Bg-3" />
+          <img src="/assets/Bg-3.png" alt="Bg-3" />
         </span>
         <span
-          onClick={() => handleClick("../src/assets/Bg-4.png")}
+          onClick={() => handleClick("/assets/Bg-4.png")}
           className="w-[25%] overflow-hidden object-cover h-[8.5vw]"
         >
-          <img src="../src/assets/Bg-4.png" alt="Bg-4" />
+          <img src="/assets/Bg-4.png" alt="Bg-4" />
         </span>
         <span
-          onClick={() => handleClick("../src/assets/Bg-1.png")}
+          onClick={() => handleClick("/assets/Bg-1.png")}
           className="w-[25%] overflow-hidden object-cover h-[6vw]"
         >
-          <img src="../src/assets/Bg-1.png" alt="Bg-4" />
+          <img src="/assets/Bg-1.png" alt="Bg-4" />
         </span>
       </div>
       <div className="bg-white mt-5  w-[100%] h-[70vh] overflow-hidden ">

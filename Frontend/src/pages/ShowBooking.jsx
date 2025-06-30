@@ -754,12 +754,12 @@ useEffect(() => {
             
             <div className="flex flex-col items-center justify-center">
               <img
-                src="../src/assets/rect2.png"
+                src="/assets/rect2.png"
                 alt="Overlayed image"
                 className="w-[20%] h-[3vw] z-10 "
               />
               <img
-                src="../src/assets/rect1.jpg"
+                src="/assets/rect1.jpg"
                 alt="Overlayed image"
                 className="w-[22%] h-[2vw] mt-[-2vw]"
               />

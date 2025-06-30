@@ -132,7 +132,7 @@ const AllMovies = () => {
           </div>
           <div className="  h-[14vw]  my-[4vw]">
             <img
-              src="../src/assets/footerImage.png"
+              src="/assets/footerImage.png"
               alt="FooterImg"
               className="w-[100%] h-[100%] object-fit"
             />

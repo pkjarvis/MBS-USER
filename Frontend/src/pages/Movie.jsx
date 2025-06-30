@@ -170,27 +170,27 @@ const Movie = () => {
             <span className="flex items-center justify-start gap-2 mt-2">
               <p className="text-zinc-300">4.2</p>
               <img
-                src="../src/assets/Star.png"
+                src="/assets/Star.png"
                 alt="Star"
                 className="w-[1vw] h-[1vw]"
               />
               <img
-                src="../src/assets/Star.png"
+                src="/assets/Star.png"
                 alt="Star"
                 className="w-[1vw] h-[1vw]"
               />
               <img
-                src="../src/assets/Star.png"
+                src="/assets/Star.png"
                 alt="Star"
                 className="w-[1vw] h-[1vw]"
               />
               <img
-                src="../src/assets/Star.png"
+                src="/assets/Star.png"
                 alt="Star"
                 className="w-[1vw] h-[1vw]"
               />
               <img
-                src="../src/assets/Star14.png"
+                src="/assets/Star14.png"
                 alt="Star14"
                 className="w-[1.16vw] h-[1.18vw]"
               />
@@ -226,27 +226,27 @@ const Movie = () => {
             <span className="flex items-center justify-start gap-2 mt-2">
               <p className="text-zinc-300 text-2xl mt-2">4.2</p>
               <img
-                src="../src/assets/Star.png"
+                src="/assets/Star.png"
                 alt="Star"
                 className="w-[1vw] h-[1vw]"
               />
               <img
-                src="../src/assets/Star.png"
+                src="/assets/Star.png"
                 alt="Star"
                 className="w-[1vw] h-[1vw]"
               />
               <img
-                src="../src/assets/Star.png"
+                src="/assets/Star.png"
                 alt="Star"
                 className="w-[1vw] h-[1vw]"
               />
               <img
-                src="../src/assets/Star.png"
+                src="/assets/Star.png"
                 alt="Star"
                 className="w-[1vw] h-[1vw]"
               />
               <img
-                src="../src/assets/Star14.png"
+                src="/assets/Star14.png"
                 alt="Star14"
                 className="w-[1.15vw] h-[1.34vw]"
               />

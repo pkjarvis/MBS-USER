@@ -50,7 +50,7 @@ const Profile = () => {
             <div className="flex items-center justify-start gap-[2vw] pt-[2vw] mx-[12vw] ">
               <span className="w-[6.4vw] h-[6.2vw] rounded-full bg-[#D9D9D9] flex items-center justify-center ">
                 <img
-                  src="../src/assets/camera.png"
+                  src="/assets/camera.png"
                   alt="Camera"
                   className="w-[3vw] h-[3vw] z-10"
                 />

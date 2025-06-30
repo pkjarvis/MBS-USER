@@ -83,7 +83,7 @@ const Dashboard = () => {
             <span className="flex flex-col items-center z-10">
               <p className="bg-[#FFE9F3] h-[7vw] w-[7vw] rounded-full flex items-center justify-center">
                 <img
-                  src="../src/assets/take.png"
+                  src="/assets/take.png"
                   alt="Take"
                   className="h-[2.6vw] w-[2.8vw]"
                 />
@@ -96,7 +96,7 @@ const Dashboard = () => {
             <span className="flex flex-col items-center z-10">
               <p className="bg-[#FFE9F3] h-[7vw] w-[7vw] rounded-full flex items-center justify-center">
                 <img
-                  src="../src/assets/clock.png"
+                  src="/assets/clock.png"
                   alt="Take"
                   className="h-[2.6vw] w-[2.8vw]"
                 />
@@ -109,7 +109,7 @@ const Dashboard = () => {
             <span className="flex flex-col items-center z-10">
               <p className="bg-[#FFE9F3] h-[7vw] w-[7vw] rounded-full flex items-center justify-center">
                 <img
-                  src="../src/assets/passenger.png"
+                  src="/assets/passenger.png"
                   alt="Take"
                   className="h-[2.6vw] w-[2.8vw]"
                 />
@@ -122,7 +122,7 @@ const Dashboard = () => {
             <span className="flex flex-col items-center z-10">
               <p className="bg-[#FFE9F3] h-[7vw] w-[7vw] rounded-full flex items-center justify-center">
                 <img
-                  src="../src/assets/cash.png"
+                  src="/assets/cash.png"
                   alt="Take"
                   className="h-[2.6vw] w-[2.8vw]"
                 />
@@ -141,7 +141,7 @@ const Dashboard = () => {
 
         <section className="mx-[3vw]  h-[14vw]  my-[4vw]">
           <img
-            src="../src/assets/footerImage.png"
+            src="/assets/footerImage.png"
             alt="FooterImg"
             className="w-[100%] h-[100%] object-fit"
           />

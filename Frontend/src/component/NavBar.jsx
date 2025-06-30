@@ -35,26 +35,26 @@ const NavBar = (props) => {
                 placeholder="Select a City" className="w-full md:w-14rem" />
             </div>
             <span className='flex items-center my-3 gap-1'>
-                <img src="../src/assets/location.png" alt="Location" className='w-[1.2vw] h-[1.2vw]' />
+                <img src="/assets/location.png" alt="Location" className='w-[1.2vw] h-[1.2vw]' />
                 <p className='text-[1vw] font-medium'>Use current location</p>
             </span>
             <p className='text-lg font-medium text-center mt-6'>Popular cities</p>
 
             <div className='flex items-center justify-evenly mt-3'>
              <span className='flex flex-col items-center'>
-                <img src="../src/assets/charMinar.png" alt="CharMinar" className='w-[88%] h-[8vw]' />
+                <img src="/assets/charMinar.png" alt="CharMinar" className='w-[88%] h-[8vw]' />
                 <p className='text-base text-[#6F6F6F]'>Hyderabad</p>
              </span>
              <span className='flex flex-col items-center'>
-                <img src="../src/assets/TajMahal.png" alt="TajMahal" className='w-[88%] h-[8vw]' />
+                <img src="/assets/TajMahal.png" alt="TajMahal" className='w-[88%] h-[8vw]' />
                 <p className='text-base text-[#6F6F6F]'>Agra</p>
              </span>
              <span className='flex flex-col items-center'>
-                <img src="../src/assets/IndiaGate.png" alt="IndiaGate" className='w-[88%] h-[8vw]' />
+                <img src="/assets/IndiaGate.png" alt="IndiaGate" className='w-[88%] h-[8vw]' />
                 <p className='text-base text-[#6F6F6F]'>Delhi</p>
              </span>
              <span className='flex flex-col items-center'>
-                <img src="../src/assets/MumbaiGate.png" alt="CharMinar" className='w-[88%] h-[8vw]' />
+                <img src="/assets/MumbaiGate.png" alt="CharMinar" className='w-[88%] h-[8vw]' />
                 <p className='text-base text-[#6F6F6F]'>Mumbai</p>
              </span>
             </div>
@@ -64,15 +64,15 @@ const NavBar = (props) => {
 
 
         <div className="nav-container  w-[95%] flex items-center justify-between p-2">
-            <a href="/"><img src="../src/assets/Logo.png" alt="WebLogo" className='w-[2.6vw] h-[2.6vw]' /></a>
+            <a href="/"><img src="/assets/Logo.png" alt="WebLogo" className='w-[2.6vw] h-[2.6vw]' /></a>
             <span className='container-right flex items-center justify-center gap-4'>
                 <span className='flex items-center gap-2 cursor-pointer' onClick={handleClick}>
                     <p className='text-[#373737] font-normal'>New Delhi</p>
-                    <img src="../src/assets/dropDown.png" alt="DropDown" className={`${flag?"transform rotate-180 duration-200 transition-transform":"duration-200 transition-transform"}w-[1vw] h-[0.7vw]`} />
+                    <img src="/assets/dropDown.png" alt="DropDown" className={`${flag?"transform rotate-180 duration-200 transition-transform":"duration-200 transition-transform"}w-[1vw] h-[0.7vw]`} />
                 </span>
 
                 <span className='flex items-center gap-1 cursor-pointer' onClick={handleProfile}>
-                    <img src="../src/assets/user.png" alt="Profile" className='w-[2vw] h-[2vw]' />
+                    <img src="/assets/user.png" alt="Profile" className='w-[2vw] h-[2vw]' />
                      <p className='text-[#373737] font-normal'>Hi,{" "}{props.title}</p>
                 </span>
             </span>
