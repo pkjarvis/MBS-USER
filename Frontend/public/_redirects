@@ -1,0 +1,4 @@
+/*    /index.html   200
+
+# Proxy API requests to backend
+/api/*  http://localhost:8080/:splat  200
