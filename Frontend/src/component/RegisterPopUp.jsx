@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const RegisterPopUp = (props) => {
+const RegisterPopUp = () => {
   
   const navigate=useNavigate("");
 
-  const handleClick=()=>{
-    props.func(!props.val);
-  }
+  // const handleClick=()=>{
+  //   props.func(!props.val);
+  // }
 
   const handleRoute=()=>{
     navigate("/signup");
@@ -17,7 +17,7 @@ const RegisterPopUp = (props) => {
     <div className="flex items-center justify-center z-60 ">
       <div className="pop-up-container flex flex-col bg-white rounded-2xl items-center justify-evenly w-[35%] h-[30vw]  absolute top-[8vw] shadow-2xl cursor-pointer">
         <span className="flex">
-          <p className="text-3xl text-black absolute right-9 top-5" onClick={handleClick}>x</p>
+          {/* <p className="text-3xl text-black absolute right-9 top-5" onClick={handleClick}>x</p> */}
         </span>
         <div className="w-[34%] h-[2.2vw] ">
           <img src="../src/assets/Welcome.png" alt="Welcome" />

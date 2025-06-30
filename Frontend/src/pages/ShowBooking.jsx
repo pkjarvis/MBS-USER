@@ -1,9 +1,33 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../component/NavBar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 const ShowBooking = () => {
   const navigate = useNavigate();
+
+  // seat booked logic
+  const [soldTickets, setSoldTickets] = useState([]);
+  useEffect(() => {
+  axiosInstance.get("/booked-seats", { withCredentials: true })
+    .then(res => {
+       const paidSeats = res.data.tickets
+        .flatMap((tx) => tx.tickets); // Flatten all seat arrays
+      console.log("Paid Seats:", paidSeats);
+      setSoldTickets(paidSeats);
+    })
+    .catch(err => console.error("Error fetching paid tickets:", err));
+}, []);
+
+useEffect(() => {
+  soldTickets.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.setProperty("background-color", "#C0C0C0", "important");
+      // el.style.pointerEvents = "none"; // Disable interaction
+    }
+  });
+}, [soldTickets]);
 
   
 
@@ -17,65 +41,20 @@ const ShowBooking = () => {
 
   
 
-  // const NavigateDashboard = () => {
-  //   navigate("/");
-  // };
-
-  // const NavigateMovie = () => {
-  //   navigate("/movie", { state: { movie: movie } });
-  // };
-
-  // const middlerows = [
-  //   { label: "G", price: 320, seat: 15 },
-  //   { label: "H", price: 320, seat: 15 },
-  //   { label: "I", price: 320, seat: 15 },
-  //   { label: "J", price: 320, seat: 15 },
-  //   { label: "K", price: 320, seat: 15 },
-  //   { label: "L", price: 320, seat: 15 },
-  // ];
-
-  // const rows = [
-  //   { label: "M", price: 560, seat: 10 },
-  //   { label: "G", price: 320, seat: 15 },
-  //   { label: "H", price: 320, seat: 15 },
-  //   { label: "I", price: 320, seat: 15 },
-  //   { label: "J", price: 320, seat: 15 },
-  //   { label: "K", price: 320, seat: 15 },
-  //   { label: "L", price: 320, seat: 15 },
-  //   { label: "A", price: 300, seat: 11 },
-  //   { label: "B", price: 300, seat: 11 },
-  //   { label: "C", price: 300, seat: 11 },
-  //   { label: "D", price: 300, seat: 11 },
-  //   { label: "E", price: 300, seat: 11 },
-  //   { label: "F", price: 300, seat: 11 },
-  // ];
-
-  // const [selectedSeats, setSelectedSeats] = useState([]);
-  // const [totalPrice, setTotalPrice] = useState(0);
-
-  // const handleSeatClick = (row, seatNumber, price) => {
-  //   const seatId = `${row}${seatNumber}`;
-  //   const isSelected = selectedSeats.includes(seatId);
-
-  //   if (isSelected) {
-  //     // here prev-price is done such that when user is deselecting the seat price should be reduced
-  //     setSelectedSeats(selectedSeats.filter((s) => s !== seatId));
-  //     setTotalPrice((prev) => prev - price);
-  //   } else {
-  //     setSelectedSeats([...selectedSeats, seatId]);
-  //     setTotalPrice((prev) => prev + price);
-  //   }
-  // };
-
-
-  // var totalprice=0;
-  // var storeId=[];
-    const [storeId,setStoreId]=useState([]);
-    const [totalprice,setTotalPrice]=useState(0);
+  
+  const [storeId,setStoreId]=useState([]);
+  const [totalprice,setTotalPrice]=useState(0);
 
   const handleMiddleRow = (s,id) => {
     const finalId = s + id;
     console.log(finalId);
+
+    if (soldTickets.includes(finalId)) {
+      console.warn("This seat is already sold:", finalId);
+      alert(`${finalId} seat is already booked!`)
+      return;
+    }
+
     var element = document.getElementById(finalId);
     const selected=storeId.includes(finalId);
 
@@ -128,6 +107,10 @@ const ShowBooking = () => {
   const handleSubmit = () => {
     console.log("final values of store id, totalprice",totalprice);
     console.log("final values of store id, totalprice",storeId);
+    if(soldTickets.length===166){
+      alert("All seats booked can't proceed to pay!")
+      return;
+    }
     navigate("/booking",{state:{storeId,totalprice,movie}});
   };
 
@@ -193,7 +176,7 @@ const ShowBooking = () => {
         <div className="border-1 border-[#D9D9D9] mx-[3vw]">
           <div className="seat-status flex items-center justify-center gap-6  my-[0.5vw]">
             <span className="flex items-center justify-center gap-2">
-              <p className="w-[1.3vw] h-[1.3vw] bg-white border-1 border-[#59B200] rounded-md"></p>
+              <p className="w-[1.3vw] h-[1.3vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-md"></p>
               <h3>Available</h3>
             </span>
             <span className="flex items-center justify-center gap-2">
@@ -201,7 +184,7 @@ const ShowBooking = () => {
               <h3>Selected</h3>
             </span>
             <span className="flex items-center justify-center gap-2">
-              <p className="w-[1.3vw] h-[1.3vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-md"></p>
+              <p className="w-[1.3vw] h-[1.3vw] bg-[#C0C0C0] border-1 border-[#D6D6D6] rounded-md"></p>
               <h3>Sold out</h3>
             </span>
           </div>
@@ -246,34 +229,7 @@ const ShowBooking = () => {
               </div>
             </div>
 
-            {/* {rows.map((row) => (
-  <div key={row.label} className="main-content mx-[3vw] p-[1vw]">
-    <h3 className="text-[#949494] font-normal">Rs.{row.price}</h3>
-    <hr className="my-2 text-[#D6D6D6]" />
-
-    <div className="flex items-center gap-4 justify-start my-[1.3vw]">
-      <p className="text-[#949494] font-normal w-[2vw]">{row.label}</p>
-
-      {Array.from({ length: row.seats }, (_, i) => {
-        const seatNumber = i + 1;
-        const seatId = `${row.label}${seatNumber}`;
-        const isSelected = selectedSeats.includes(seatId);
-
-        return (
-          <div
-            key={seatId}
-            onClick={() => handleSeatClick(row.label, seatNumber, row.price)}
-            className={`h-[2.4vw] w-[2.4vw] ${
-              isSelected ? "bg-[#59B200]" : "bg-[#E5E5E5]"
-            } border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center cursor-pointer`}
-          >
-            <p className="text-center text-base text-white">{seatNumber}</p>
-          </div>
-        );
-      })}
-    </div>
-  </div>
-))} */}
+         
 
             {/* Middle tier prices */}
             <div className="main-content mx-[3vw] p-[1vw]">
@@ -725,34 +681,34 @@ const ShowBooking = () => {
                 <div id="E1" className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[3.8vw]" onClick={()=>handleMiddleRow("E",1)}>
                   <p className="text-center text-base  text-white">1</p>
                 </div>
-                <div id="E2"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center "  onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E2"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center "  onClick={()=>handleMiddleRow("E",2)}>
                   <p className="text-center text-base  text-white">2</p>
                 </div>
-                <div id="E3"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E3"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",3)}>
                   <p className="text-center text-base  text-white">3</p>
                 </div>
-                <div id="E4"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E4"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("E",4)}>
                   <p className="text-center text-base  text-white">4</p>
                 </div>
-                <div id="E5"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]" onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E5"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center ml-[5vw]" onClick={()=>handleMiddleRow("E",5)}>
                   <p className="text-center text-base  text-white">5</p>
                 </div>
-                <div id="E6"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E6"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("E",6)}>
                   <p className="text-center text-base  text-white">6</p>
                 </div>
-                <div id="E7"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E7"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",7)}>
                   <p className="text-center text-base  text-white">7</p>
                 </div>
-                <div id="E8"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E8"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center " onClick={()=>handleMiddleRow("E",8)}>
                   <p className="text-center text-base  text-white">8</p>
                 </div>
-                <div id="E9"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E9"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",9)}>
                   <p className="text-center text-base  text-white">9</p>
                 </div>
-                <div id="E10"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E10"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",10)}>
                   <p className="text-center text-base  text-white">10</p>
                 </div>
-                <div id="E11"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",1)}>
+                <div id="E11"  className="h-[2.4vw] w-[2.4vw] bg-[#E5E5E5] border-1 border-[#D6D6D6] rounded-sm flex items-center justify-center" onClick={()=>handleMiddleRow("E",11)}>
                   <p className="text-center text-base  text-white">11</p>
                 </div>
               </div>
@@ -814,7 +770,7 @@ const ShowBooking = () => {
             className="flex items-center justify-around p-[1vw] w-[100%] bg-[#F0F0F0] relative mb-4"
             // onClick={handlePopUP}
           >
-            <p className="font-bold text-xl">1 seat selected</p>
+            <p className="font-bold text-xl">{storeId.length} seat selected</p>
             <button
               className="bg-[#FF5295]  text-md w-[12vw] h-[2vw]  rounded-lg text-white font-semibold text-center cursor-pointer mx-[1vw]"
               onClick={handleSubmit}

@@ -47,6 +47,7 @@ const SignUp = () => {
       });
       console.log(response);
 
+      localStorage.setItem("flag",false);
       navigate("/login");
     } catch (error) {
       // handle error while login

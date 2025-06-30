@@ -39,12 +39,15 @@ const Login = () => {
 
       // handle successful register
       if (response.data && response.data.token) {
-        console.log(response);
+        console.log("response",response);
         localStorage.setItem("userToken", response.data.token);
         localStorage.setItem("userName", response.data.username);
         localStorage.setItem("userId",response.data.userId);
+        localStorage.setItem("email",response.data.email)
+
+        
         console.log("Logging with flag variable true");
-        navigate("/root");
+        navigate("/dashboard");
         console.log("Logging with flag variable false");
         return;
       }

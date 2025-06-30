@@ -13,27 +13,27 @@ const Movie = () => {
   const [star, setStar] = useState(null);
   const [text, setText] = useState("");
 
-  const navigate=useNavigate("");
+  const navigate = useNavigate("");
 
-  const {state}=useLocation();
-  const m=state?.movie;
+  const { state } = useLocation();
+  const m = state?.movie;
 
-  console.log("state",m);
+  console.log("state", m);
 
   // if(!movie){
   //   return <p>Movie data not available</p>
   // }
 
-  useEffect(()=>{
+  useEffect(() => {
     setVisible(true);
-  },[])
+  }, []);
 
-  const handleClick=()=>{
+  const handleClick = () => {
     setVisible(true);
-  }
-  const handleCancel=()=>{
+  };
+  const handleCancel = () => {
     setVisible(false);
-  }
+  };
 
   // const handleSubmit=()=>{
   //   setVisible(false);
@@ -41,17 +41,14 @@ const Movie = () => {
   //   setText(text);
   // }
 
- 
-  const username=localStorage.getItem("userName");
-  useEffect(()=>{
+  const username = localStorage.getItem("userName");
+  useEffect(() => {
     console.log(username);
-  },[username])
+  }, [username]);
 
   const [movies, setMovies] = useState([]);
 
-
   useEffect(() => {
-    
     axiosInstance
       .get("/get-movies", { withCredentials: true })
       .then((res) => {
@@ -60,44 +57,56 @@ const Movie = () => {
       })
       .catch((err) =>
         console.log("Error fetching movies", err.response?.data || err.message)
-      )
-      
-  },[]);
+      );
+  }, []);
 
-
-   const handleSubmit=async()=>{
+  const handleSubmit = async () => {
     setVisible(false);
     setStar(star);
     setText(text);
-    const movieId=m.id;
-    await axiosInstance.post("/add-review",{text,star,movieId},{withCredentials:"true"})
-    .then((res)=>console.log(res.data))
-    .catch((err)=>console.log(err));
-  }
+    const movieId = m.id;
+    await axiosInstance
+      .post("/add-review", { text, star, movieId }, { withCredentials: "true" })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  };
 
+  const handleBook = () => {
+    navigate("/showtime", { state: { movie: m } });
+  };
 
-  const handleBook=()=>{
-    navigate("/showtime",{state:{movie:m}});
-  }
-
-
-
-
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    axiosInstance
+      .get("/get-review", { withCredentials: "true" })
+      .then((res) => {
+        console.log("reviews",res.data.reviews);
+        setReviews(res.data.reviews);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div>
       <div className="movie-container">
-        <div className={`${visible?"star-container flex flex-col bg-white shadow-2xl z-10 w-[26%] rounded-xl absolute top-[15vw] mx-[32vw] p-2":"hidden"}`}>
+        <div
+          className={`${
+            visible
+              ? "star-container flex flex-col bg-white shadow-2xl z-10 w-[26%] rounded-xl absolute top-[15vw] mx-[32vw] p-2"
+              : "hidden"
+          }`}
+        >
           <span className="flex items-center justify-between my-2 mx-[1vw]">
             <p className="font-semibold text-lg">Ratings and Reviews</p>
-            <p className="text-3xl cursor-pointer" onClick={handleCancel}>x</p>
+            <p className="text-3xl cursor-pointer" onClick={handleCancel}>
+              x
+            </p>
           </span>
           <div className="card flex justify-content-center mx-[1vw]">
             <Rating
               value={star}
               onChange={(e) => setStar(e.value)}
               cancel={false}
-              
             />
           </div>
           <div className="card flex justify-content-center mx-[1vw] mt-4 ">
@@ -108,31 +117,37 @@ const Movie = () => {
               rows={5}
               cols={30}
               pt={{
-                root:{
-                  className:`w-[100%] border-zinc-300 border-0 focus:border-0 [&::placeholder]:text-zinc-300 `
-                }
+                root: {
+                  className: `w-[100%] border-zinc-300 border-0 focus:border-0 [&::placeholder]:text-zinc-300 `,
+                },
               }}
             />
           </div>
 
           <div className="flex items-center justify-end my-2">
-              <button className="bg-[#FF5295]  text-md w-[23%] h-[2vw] rounded-lg text-white font-semibold text-center cursor-pointer mx-[1vw]" onClick={handleSubmit}>
-               Submit
+            <button
+              className="bg-[#FF5295]  text-md w-[23%] h-[2vw] rounded-lg text-white font-semibold text-center cursor-pointer mx-[1vw]"
+              onClick={handleSubmit}
+            >
+              Submit
             </button>
           </div>
-          
-          
         </div>
-         <div className="theatre-container font-[Inter]">
-            <NavBar title={username} />
-            <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
-                {/* <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a> */}
-                <Link to="/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home /</Link>
-                {/* <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie </a> */}
-                <Link to="/movie" className='cursor-pointer font-light'>Movie</Link>
-                
-            </span> 
-
+        <div className="theatre-container font-[Inter]">
+          <NavBar title={username} />
+          <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
+            {/* <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a> */}
+            <Link
+              to="/dashboard"
+              className="cursor-pointer font-light text-zinc-500 "
+            >
+              Home /
+            </Link>
+            {/* <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie </a> */}
+            <Link to="/movie" className="cursor-pointer font-light">
+              Movie
+            </Link>
+          </span>
         </div>
         <div className="flex items-center justify-start gap-2 h-[35vw] p-2">
           <div className="h-[30vw] w-[28%]  ml-[2.6vw] overflow-hidden">
@@ -174,10 +189,11 @@ const Movie = () => {
               />
             </span>
             <p className="text-[#6F6F6F] mt-[1vw]">
-              <span className="text-black ">2h 49m</span>{" "}
-              {m.genre}|UA13+|{m.language?.map((lang,index)=>(
-                <p key={index} className='inline-block flex-wrap'>
-                  {lang.name}{index<m.language.length-1 && ", "}
+              <span className="text-black ">2h 49m</span> {m.genre}|UA13+|
+              {m.language?.map((lang, index) => (
+                <p key={index} className="inline-block flex-wrap">
+                  {lang.name}
+                  {index < m.language.length - 1 && ", "}
                 </p>
               ))}
             </p>
@@ -192,8 +208,11 @@ const Movie = () => {
               amidst the country's fight for freedom. */}
               {m.description}
             </p>
-            <button className="bg-[#FF5295] p-1 text-xl w-[16vw] h-[3vw] rounded-lg text-white font-semibold text-center cursor-pointer my-[1vw]" onClick={handleBook}>
-              Book 
+            <button
+              className="bg-[#FF5295] p-1 text-xl w-[16vw] h-[3vw] rounded-lg text-white font-semibold text-center cursor-pointer my-[1vw]"
+              onClick={handleBook}
+            >
+              Book
             </button>
           </div>
         </div>
@@ -230,13 +249,45 @@ const Movie = () => {
                 className="w-[1.15vw] h-[1.34vw]"
               />
             </span>
-            <button className="bg-[#FF5295] p-2 flex text-xl w-[10%] h-[2vw] rounded-lg text-white font-semibold text-center cursor-pointer  justify-center items-center" onClick={handleClick}>
+            <button
+              className="bg-[#FF5295] p-2 flex text-xl w-[10%] h-[2vw] rounded-lg text-white font-semibold text-center cursor-pointer  justify-center items-center"
+              onClick={handleClick}
+            >
               Rate Now
             </button>
           </div>
           {/* Comment container */}
           <div className="flex items-center  gap-4 w-full overflow-x-auto mt-[1vw]">
-            <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
+            {reviews.length > 0 ? (
+              reviews.map((item, index) => (
+                <div key={index} className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
+                  <p className="text-gray-300">
+                    <span className="text-black">{item.username || "Jarvis"}</span> 2d ago
+                  </p>
+                  <hr className="w-[100%] h-[1vw] mt-1 text-[#E8E8E8]" />
+                  <p className="text-wrap mt-[-0.6vw] text-sm">
+                    "{item.text}"
+                  </p>
+                  <span className="flex items-center justify-start gap-2 rounded-xl text-white my-1">
+                    {/* <img
+                      src="../src/assets/thumbsUp.png"
+                      alt="ThumbsUp"
+                      className="w-4 h-4"
+                    /> */}
+                    <p className="text-gray-300 text-sm">{item.star} ⭐</p>
+                    {/* <img
+                      src="../src/assets/thumbsDown.png"
+                      alt="ThumbsDown"
+                      className="w-4 h-4"
+                    />
+                    <p className="text-gray-300 text-sm">50</p> */}
+                  </span>
+                </div>
+              )).sort((a,b)=>a.star-b.star).reverse()
+            ) : (
+              <p className="text-sm">No reviews added yet</p>
+            )}
+            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
               <p className="text-gray-300">
                 <span className="text-black">Tanishka Kaur</span> 2d ago
               </p>
@@ -259,8 +310,8 @@ const Movie = () => {
                 />
                 <p className="text-gray-300 text-sm">50</p>
               </span>
-            </div>
-            <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
+            </div> */}
+            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
               <p className="text-gray-300">
                 <span className="text-black">Tanishka Kaur</span> 2d ago
               </p>
@@ -283,8 +334,8 @@ const Movie = () => {
                 />
                 <p className="text-gray-300 text-sm">50</p>
               </span>
-            </div>
-            <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
+            </div> */}
+            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
               <p className="text-gray-300">
                 <span className="text-black">Tanishka Kaur</span> 2d ago
               </p>
@@ -307,8 +358,8 @@ const Movie = () => {
                 />
                 <p className="text-gray-300 text-sm">50</p>
               </span>
-            </div>
-            <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
+            </div> */}
+            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
               <p className="text-gray-300">
                 <span className="text-black">Tanishka Kaur</span> 2d ago
               </p>
@@ -331,8 +382,8 @@ const Movie = () => {
                 />
                 <p className="text-gray-300 text-sm">50</p>
               </span>
-            </div>
-            <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
+            </div> */}
+            {/* <div className="msg-container w-[23%] bg-white rounded-2xl p-2 flex-shrink-0">
               <p className="text-gray-300">
                 <span className="text-black">Tanishka Kaur</span> 2d ago
               </p>
@@ -355,13 +406,13 @@ const Movie = () => {
                 />
                 <p className="text-gray-300 text-sm">50</p>
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
 
         <MovieCardSection
           title="You might also like"
-          movies={movies.slice(0,4)}
+          movies={movies.slice(0, 4)}
         />
         <div>
           <Footer />

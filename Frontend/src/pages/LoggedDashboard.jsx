@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../component/NavBar";
-import RegisterPopUp from "../component/RegisterPopUp";
 import ImageContainer from "../component/ImageContainer";
 import MovieCardSection from "../component/MovieCardSection";
 import NowShowingTheatre from "../component/NowShowingTheatre";
 import Bollywood from "../component/Bollywood";
 import Footer from "../component/Footer";
 import axiosInstance from "../utils/axiosInstance";
-import { useLocation } from "react-router-dom";
-
-
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-
-
   const [movies, setMovies] = useState([]);
-  const username=localStorage.getItem("userName");
+  const navigate=useNavigate();
 
+  const username = localStorage.getItem("userName");
+  const token=localStorage.getItem("userToken");
+
+  useEffect(()=>{
+    if(!username && !token){
+        navigate("/root");
+    }
+  })
 
   useEffect(() => {
-    
     axiosInstance
       .get("/get-movies", { withCredentials: true })
       .then((res) => {
@@ -28,36 +30,22 @@ const Dashboard = () => {
       })
       .catch((err) =>
         console.log("Error fetching movies", err.response?.data || err.message)
-      )
-      
-  },[]);
-
-
+      );
+  }, []);
 
   return (
     <div>
       <div>
-        <NavBar title={username} />
-        
-      
-          <>
-            {/* Backdrop overlay, inset0 make's top,bottom,left,right to 0 . Hence making it entirely cover parent div */}
-            <div className="fixed inset-0 bg-black opacity-50 z-40"></div>
-            {/* Popup component */}
-            <div className="fixed inset-0 z-50 flex items-center justify-center">
-              <RegisterPopUp
-              //  val={flag} func={setFlag} 
-               />
-            </div>
-          </>
-        
+        <NavBar
+         title={username } 
+         />
         <section>
           <ImageContainer />
         </section>
         <section>
           <MovieCardSection
             title="Watch latest movie"
-            movies={movies.slice(0,4)}
+            movies={movies.slice(0, 4)}
             // imgTitle={"../src/assets/aliceWonderland.png"}
           />
         </section>
@@ -131,7 +119,7 @@ const Dashboard = () => {
         </section>
 
         <section>
-          <Bollywood movies={movies.slice(0,4)} />
+          <Bollywood movies={movies.slice(0, 4)} />
         </section>
 
         <section className="mx-[3vw]  h-[14vw]  my-[4vw]">
@@ -151,4 +139,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

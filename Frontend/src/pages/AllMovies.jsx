@@ -29,23 +29,19 @@ const AllMovies = () => {
     { name: "Malyalam", code: "MLY" },
   ];
 
-
-
-  const username=localStorage.getItem("userName");
-    useEffect(()=>{
-      console.log(username);
-    },[username])
-
+  const username = localStorage.getItem("userName");
+  useEffect(() => {
+    console.log(username);
+  }, [username]);
 
   // fetch get api's for movies
-   const [movies, setMovies] = useState([]);
-    // const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState([]);
+  // const [loading, setLoading] = useState(true);
 
-   useEffect(() => {
-
+  useEffect(() => {
     // polling user side to get latest movie added by admin every 10 seconds
     // const interval=setInterval(()=>{
-      axiosInstance
+    axiosInstance
       .get("/get-movies", { withCredentials: true })
       .then((res) => {
         console.log(res.data);
@@ -53,30 +49,37 @@ const AllMovies = () => {
       })
       .catch((err) =>
         console.log("Error fetching movies", err.response?.data || err.message)
-      )
+      );
     // },2000);
 
     // return ()=>clearInterval(interval);
- 
-      
-  },[]);
-
-  
+  }, []);
 
   return (
     <div>
       <div className="all-movies">
-        <div className="theatre-container font-[Inter]">
-            <NavBar title={username} />
-            <span className="flex items-center justify-start mx-[3vw] gap-1 mt-2">
-                {/* <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a> */}
-                {/* <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie</a> */}
-                <Link to="/dashboard" className="cursor-pointer font-light text-zinc-500 ">Home /</Link>
-                <Link to="/movie" className='cursor-pointer font-light'>Movie</Link>
-            </span> 
-
+        <div className="theatre-container font-[Inter] mb-[-1vw]">
+          <NavBar title={username} />
+          <span className="flex items-center justify-start mx-[3vw] gap-1 mt-`">
+            {/* <a href="http://localhost:3000/dashboard" className='cursor-pointer font-light text-zinc-500 '>Home / </a> */}
+            {/* <a href="http://localhost:3000/movie" className='cursor-pointer font-light'>Movie</a> */}
+            <Link
+              to="/dashboard"
+              className="cursor-pointer font-light text-zinc-500 "
+            >
+              Home /
+            </Link>
+            <Link to="/movie" className="cursor-pointer font-light">
+              Movie
+            </Link>
+          </span>
         </div>
+        <section >
         <ImageContainer />
+
+        </section>
+
+       
 
         <div className="card-container mx-[3vw] bg-white h-[auto]">
           <span className="flex items-center gap-4 mt-[4vw] ">
@@ -88,7 +91,6 @@ const AllMovies = () => {
                 options={genres}
                 optionLabel="name"
                 placeholder="Genre"
-               
               />
             </div>
             <div className="card flex justify-content-center ">
@@ -98,13 +100,12 @@ const AllMovies = () => {
                 options={languages}
                 optionLabel="name"
                 placeholder="Language"
-                
               />
             </div>
           </span>
 
           <div className="grid grid-cols-4  gap-[2vw]">
-            {movies.length>0?
+            {/* {movies.length>0?
             (
               movies.map((m)=>(
                 <MovieCard
@@ -116,32 +117,30 @@ const AllMovies = () => {
               ))
             ):(<p className="text-md ">No movies added</p>)
             
-          }
-          
-            
+          } */}
+            {movies
+              .filter((m) => {
+                const genreMatch = genre ? m.genre === genre.name : true;
+                const languageMatch = language
+                  ? m.language?.some((lang) => lang.name === language.name)
+                  : true;
+                return genreMatch && languageMatch;
+              })
+              .map((m) => (
+                <MovieCard key={m.id} movie={m} />
+              ))}
           </div>
-          <div className='  h-[14vw]  my-[4vw]'>
-            <img src="../src/assets/footerImage.png" alt="FooterImg" className='w-[100%] h-[100%] object-fit' />
+          <div className="  h-[14vw]  my-[4vw]">
+            <img
+              src="../src/assets/footerImage.png"
+              alt="FooterImg"
+              className="w-[100%] h-[100%] object-fit"
+            />
           </div>
-
-          
-          
-        
-
         </div>
-           
 
-           
-        
-        
-        
-        
-        
-            <Footer/>
+        <Footer />
       </div>
-      
-    
-      
     </div>
   );
 };

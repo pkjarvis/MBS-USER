@@ -70,6 +70,8 @@ const Theatres = ({ theatre }) => {
                 </div>
             ))
           ))
+          
+          
         ) : (
         
           <p className="text-gray-500 text-xs">No times available</p>
