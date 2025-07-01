@@ -19,12 +19,6 @@ import PaymentStatus from "./pages/PaymentStatus";
 import LoggedDashboard from "./pages/LoggedDashboard"
 
 function App() {
-
-  const token=localStorage.getItem("userToken");
-  useEffect(()=>{
-    console.log(token);
-  },[token])
-
   return (
     <>
       <BrowserRouter>
@@ -33,16 +27,16 @@ function App() {
             <Route path="*" element={<Navigate to="/dashboard" />} />
             <Route path="/root" element={<Dashboard />} />
             <Route path="/dashboard" element={<LoggedDashboard/>} />
-            {token?<Route path="/movies" element={<AllMovies />} />:<Route path="/root" element={<Dashboard />} />}
-            {token?<Route path="/movie" element={<Movie />} />:<Route path="/root" element={<Dashboard />} />}
-            {token?<Route path="/showtime" element={<Showtime />} />:<Route path="/root" element={<Dashboard />} />}
-            {token?<Route path="/showbooking" element={<ShowBooking />} />:<Route path="/root" element={<Dashboard />} />}
-            {token?<Route path="/profile" element={<Profile />} />:<Route path="/root" element={<Dashboard />} />}
-            {token?<Route path="/signup" element={<Signup />} />:<Route path="/root" element={<Dashboard />} />}
-            {token?<Route path="/login" element={<Login />} />:<Route path="/root" element={<Dashboard />} />}
-            {token?<Route path="/booking" element={<Booking />} />:<Route path="/root" element={<Dashboard />} />}
-            {token?<Route path="/history" element={<History />} />:<Route path="/root" element={<Dashboard />} />}
-            {token?<Route path="/payment-status" element={<PaymentStatus />} />:<Route path="/root" element={<Dashboard />} />}
+            <Route path="/movies" element={<AllMovies />} />
+            <Route path="/movie" element={<Movie />} />
+            <Route path="/showtime" element={<Showtime />} />
+            <Route path="/showbooking" element={<ShowBooking />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/booking" element={<Booking />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/payment-status" element={<PaymentStatus />} />
           </Routes>
         </PrimeReactProvider>
       </BrowserRouter>
