@@ -14,6 +14,7 @@ const Booking = () => {
   const store = state?.storeId;
   const price = state?.totalprice;
   const movie = state?.movie;
+  const theatreval=state?.theatre;
 
   console.log("seats", store);
   console.log("totalprice", price);
@@ -46,6 +47,7 @@ const Booking = () => {
 
 
   const handlePayment = async () => {
+    if(price===60) return;
     try{
       const res = await axiosInstance.post(
       "/api-payu",
@@ -101,14 +103,14 @@ const Booking = () => {
         <div className="h-[auto] bg-[rgba(248, 248, 248, 0.55)] mx-[20vw] mt-[2vw] shadow-2xl p-[2.4vw] flex flex-col rounded-xl ">
           <span className="flex gap-2 items-center justify-start">
             <img
-              src="/assets/pvr.png"
+              src={theatreval.theatrefile  || "/assets/pvr.png"}
               alt="PVR"
               className="w-[5%] h-[3vw] rounded-full"
             />
             <span>
-              <h1 className="text-2xl font-bold">Azaad</h1>
+              <h1 className="text-2xl font-bold">{movie.movie}</h1>
               <p className="text-base font-normal text-[#5E5E5E]">
-                Cinepolis:Pacific NSP2,Delhi
+               {theatreval.theatrename} | {theatreval.address} | {theatreval.cityName} | {theatreval.stateName}
               </p>
             </span>
           </span>

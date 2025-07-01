@@ -12,6 +12,9 @@ const Theatres = ({ theatre }) => {
 
   const {state}=useLocation();
   const movie=state?.movie;
+  
+  console.log("movie from location.state",movie)
+ 
 
   useEffect(() => {
     axiosInstance
@@ -36,19 +39,20 @@ const Theatres = ({ theatre }) => {
 //       );
 //   }, []);
 
-
+  
   
   console.log("showtime", showtime);
+  console.log("theatreval",theatre);
 
   const handleClick = () => {
-    navigate("/showbooking",{state:{movie:movie}});
+    navigate("/showbooking",{state:{movie:movie,theatreval:theatre}});
   };
 
   return (
     <div>
       <span className="flex items-center justify-start gap-4 px-2 py-2">
         <img
-          src={theatre.file || "/assets/pvr.png"}
+          src={theatre.theatrefile || "/assets/pvr.png"}
           alt={theatre.theatrename}
           className="w-[3vw] h-[3vw] rounded-full"
         />
@@ -70,6 +74,7 @@ const Theatres = ({ theatre }) => {
                 </div>
             ))
           ))
+         
           
           
         ) : (

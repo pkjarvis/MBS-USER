@@ -42,7 +42,7 @@ const History = () => {
           </div>
         </div>
         <div className="mx-[3vw] h-[6vw] w-[94%] mt-[1vw]">
-          <h1 className="font-semibold text-xl my-1">Upcoming movies</h1>
+          <h1 className="font-semibold text-xl my-1">Booked movies</h1>
 
           {/* <BookingCard onClick={()=>handlePopup} val={visible} func={setVisible} /> */}
           {

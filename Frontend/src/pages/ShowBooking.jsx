@@ -38,6 +38,8 @@ useEffect(() => {
 
   const { state } = useLocation();
   const movie = state?.movie;
+  const theatre=state?.theatreval;
+  console.log("theatre from location.state",theatre);
 
   
 
@@ -111,7 +113,7 @@ useEffect(() => {
       alert("All seats booked can't proceed to pay!")
       return;
     }
-    navigate("/booking",{state:{storeId,totalprice,movie}});
+    navigate("/booking",{state:{storeId,totalprice,movie,theatre}});
   };
 
   // const handlePopUP = () => {
@@ -161,14 +163,14 @@ useEffect(() => {
 
         <div className="header flex justify-start mx-[3vw] mt-[2vw] gap-4 bg-[#F9F9F9] py-[1.4vw]">
           <img
-            src="../src/assets/pvr.png"
+            src={theatre.theatrefile || "/assets/pvr.png"}
             alt="PVR"
             className="w-[3vw] h-[3vw] rounded-full"
           />
           <span className="flex flex-col items-start justify-center">
-            <h1 className="text-3xl font-bold">Azaad</h1>
+            <h1 className="text-3xl font-bold">{movie.movie}</h1>
             <p className="font-normal text-[#5E5E5E]">
-              Cinepolis: Pacific NSP2, Delhi | Monday,May 26, 2025, 07:05 PM
+              {theatre.theatrename} | {theatre.address}| {theatre.cityName} | {theatre.stateName} | {movie.startDate}
             </p>
           </span>
         </div>

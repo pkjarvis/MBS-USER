@@ -10,7 +10,7 @@ const ImageContainer = () => {
     <div>
       <div className=" flex items-center w-[40%] h-[12vw] absolute top-[31vw] right-0 overflow-hidden object-fill">
         <span
-          onClick={() => handleClick("../src/assets/Bg-2.png")}
+          onClick={() => handleClick("/assets/Bg-2.png")}
           className="w-[25%] overflow-hidden object-cover"
         >
           <img src="/assets/Bg-2.png" alt="Bg-2" />

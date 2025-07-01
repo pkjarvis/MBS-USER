@@ -11,7 +11,7 @@ const PaymentStatus = () => {
       ) : (
         <h2 className="text-red-500 text-2xl">❌ Payment Failed</h2>
       )}
-      <Link to="/history">View Ticket</Link>
+     {success==="true" && <Link to="/history">View Ticket</Link>}
     </div>
   );
 };
