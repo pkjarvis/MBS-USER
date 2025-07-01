@@ -12,4 +12,7 @@ export default defineConfig({
   server: {
     port: parseInt(process.env.PORT) || 3000 // change here
   },
+  build: {
+    outDir: 'build', // tells vite to output to /build
+  },
 })
