@@ -82,7 +82,7 @@ const Booking = () => {
             Home /
           </Link>
           <Link
-            href="/movie"
+            to="/movie"
             state={{movie:movie}}
             className="cursor-pointer font-light text-zinc-500"
           >

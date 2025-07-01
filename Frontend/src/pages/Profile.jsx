@@ -3,7 +3,7 @@ import NavBar from "../component/NavBar";
 import Footer from "../component/Footer";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
-
+const baseUrl = import.meta.env.VITE_ROUTE;
 const Profile = () => {
   const username = localStorage.getItem("userName");
   const emailAddress = localStorage.getItem("email");
@@ -41,8 +41,8 @@ const Profile = () => {
         <NavBar title={username} />
         <div className="bg-[#E2E0E0] p-2">
           <div className="flex items-center gap-[3vw] mx-[2.4vw]">
-            <a href="http://localhost:3000/profile">Profile</a>
-            <a href="http://localhost:3000/history">History</a>
+            <a href={baseUrl+"/profile"}>Profile</a>
+            <a href={baseUrl+"/history"}>History</a>
           </div>
         </div>
         <div className="bg-[#F1F1F1] mx-[3vw] h-[70vh] pt-[2vw] mt-[1.6vw]">

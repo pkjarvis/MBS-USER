@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
 import axiosInstance from "../utils/axiosInstance";
 import { Link } from "react-router-dom";
+const baseUrl = import.meta.env.VITE_ROUTE;
 
 const MovieCardSection = ({ title, movies = [] }) => {
   //  const [movies, setMovies] = useState([]);
@@ -29,7 +30,7 @@ const MovieCardSection = ({ title, movies = [] }) => {
         <span className="flex items-center justify-between mt-[4vw] ">
           <p className="text-3xl font-bold">{title}</p>
           <Link
-            to="http://localhost:3000/movies"
+            to="/movies"
             className="underline text-gray-500"
           >
             see all
