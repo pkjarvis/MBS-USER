@@ -10,6 +10,6 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
-    port: 3000 // change here
+    port: parseInt(process.env.PORT) || 3000 // change here
   },
 })
