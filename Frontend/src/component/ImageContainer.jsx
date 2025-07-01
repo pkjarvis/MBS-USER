@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 
 const ImageContainer = () => {
-  const [bgimage, setBgImage] = useState("../src/assets/Bg-1.png");
+  const [bgimage, setBgImage] = useState("/assets/Bg-1.png");
   const handleClick = (path) => {
     setBgImage(path);
   };
