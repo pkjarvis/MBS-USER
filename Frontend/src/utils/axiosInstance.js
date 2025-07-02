@@ -3,10 +3,9 @@ import axios from "axios"
 
 
 const axiosInstance=axios.create({
-    baseURL:"http://localhost:8080/",
+    baseURL:"https://moviebookingsystem-ta6i.onrender.com",
     timeout:3000,
     withCredentials:true,
-    body:JSON.stringify({}),
     headers: {
     "Content-Type": "application/json",
   },

@@ -3,6 +3,7 @@ import NavBar from "../component/NavBar";
 import BookingCard from "../component/BookingCard";
 import Footer from "../component/Footer";
 import axiosInstance from "../utils/axiosInstance";
+import { Link } from "react-router-dom";
 const baseUrl = import.meta.env.VITE_ROUTE;
 
 const History = () => {
@@ -38,8 +39,8 @@ const History = () => {
         <NavBar title={username} />
         <div className="bg-[#E2E0E0] p-2">
           <div className="flex items-center gap-[3vw] mx-[2.4vw]">
-            <a href={baseUrl+"/profile"}>Profile</a>
-            <a href={baseUrl+"/history"}>History</a>
+            <Link to="/profile">Profile</Link>
+            <Link to="/history">History</Link>
           </div>
         </div>
         <div className="mx-[3vw] h-[6vw] w-[94%] mt-[1vw]">
